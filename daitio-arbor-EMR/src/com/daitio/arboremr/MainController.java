@@ -11,7 +11,8 @@ public class MainController {
 
 	@RequestMapping(value="/login.html", method = RequestMethod.GET)
 	public ModelAndView getAdmissionForm() {
-
+		
+		int i = 15; 
 		ModelAndView model1 = new ModelAndView("loginForm");
 		
 		return model1;
