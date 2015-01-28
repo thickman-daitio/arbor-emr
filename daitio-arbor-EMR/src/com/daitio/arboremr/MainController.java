@@ -13,7 +13,7 @@ public class MainController {
 	public ModelAndView getAdmissionForm() {
 
 		ModelAndView model1 = new ModelAndView("loginForm");
-		
+		int i = 1;
 		return model1;
 	}	
 	
