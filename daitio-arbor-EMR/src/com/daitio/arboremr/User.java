@@ -1,9 +1,5 @@
 package com.daitio.arboremr;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-
 public class User {
 
 	private String userName;
