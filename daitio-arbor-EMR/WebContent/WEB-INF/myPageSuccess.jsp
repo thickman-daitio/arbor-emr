@@ -5,7 +5,7 @@
 
 	<table>
 		<tr>
-			<td>Logged in as: ${user1.userName}</td>
+			<td>Logged in as: ${user1.username}</td>
 		</tr>
 
 	</table>
