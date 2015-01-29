@@ -1,8 +1,12 @@
 package com.daitio.arboremr;
 
 import org.bson.types.ObjectId;
+import org.springframework.util.DigestUtils;
 
 public class User {
+	
+	private static final String MD5_KEY = "D41t10-4rB0r";
+	
 	private ObjectId id;
 	private String username;
 	private String password;
@@ -19,7 +23,7 @@ public class User {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = hashPassword(password);
 	}
 	public ObjectId getId() {
 		return id;
@@ -38,5 +42,11 @@ public class User {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public static String hashPassword(String password) {
+		password += MD5_KEY;
+		String hash = DigestUtils.md5DigestAsHex(password.getBytes());
+		hash = DigestUtils.md5DigestAsHex(password.getBytes());
+		return hash;
 	}
 }
