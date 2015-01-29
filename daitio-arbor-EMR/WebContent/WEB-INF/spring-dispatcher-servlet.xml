@@ -13,8 +13,9 @@
 
   <context:component-scan base-package="com.daitio.arboremr" />
   <mvc:annotation-driven/>
-  <!--<mvc:resources mapping="/WebContent/**" location="/WebContent/WEB-INF/" />
- -->
+
+	
+	
   <bean id="viewResolver"
     	class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
         <property name="prefix">
