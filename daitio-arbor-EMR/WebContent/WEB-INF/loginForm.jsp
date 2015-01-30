@@ -25,10 +25,7 @@
 
 			<section class="top-bar-section"></section>
 		</nav>
-
-
 		&nbsp;
-
 		<div class="row">
 			<div class="large-6 large-centered columns text-center">
 				<div class="panel">
