@@ -3,18 +3,19 @@
   <display-name>daitio-arbor-EMR</display-name>
   
   <context-param>
-	  <param-name>MONGODB_HOST</param-name>
-	  <param-value>localhost</param-value>
+  <param-name>MONGODB_HOST</param-name>
+  <param-value>localhost</param-value>
   </context-param>
-  
   <context-param>
-	  <param-name>MONGODB_PORT</param-name>
-	  <param-value>27017</param-value>
+  <param-name>MONGODB_PORT</param-name>
+  <param-value>27017</param-value>
   </context-param> 
   
   <servlet>
     <servlet-name>spring-dispatcher</servlet-name>
-    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <servlet-class>
+                  org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -22,10 +23,10 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
   
-  <servlet-mapping>
+<servlet-mapping>
     <servlet-name>default</servlet-name>
-    <url-pattern>*.css</url-pattern>
+    <url-pattern>*.jpg</url-pattern>
     <url-pattern>*.js</url-pattern>
-  </servlet-mapping>
-  
+    <url-pattern>*.css</url-pattern>
+</servlet-mapping>
 </web-app>
