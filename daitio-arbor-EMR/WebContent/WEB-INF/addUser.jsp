@@ -14,17 +14,15 @@
 			<h3>Add User</h3>
 			<div class="panel">
 				<form action="/daitio-arbor-EMR/adduser.html" method="post">
-					<p>
-						<label>Username</label>
-						<input type="text" id="txtUsername"	name="username" /><br> 
-						<label>Password</label> 
-						<input type="text" id="txtPassword" name="password" /><br> 
-						<label>First Name</label>
-						<input type="text" id="txtFirstName" name="firstName" /><br>
-						<label>Last Name</label> 
-						<input type="text" id="txtLastName" name="lastName" /><br>
-						<input type="submit" id="btnSubmit" value="Submit" class="button success" /><br>
-					</p>
+					<label>First Name</label>
+					<input type="text" id="txtFirstName" name="firstName" />
+					<label>Last Name</label> 
+					<input type="text" id="txtLastName" name="lastName" />
+					<label>Username</label>
+					<input type="text" id="txtUsername"	name="username" />
+					<label>Password</label> 
+					<input type="text" id="txtPassword" name="password" />
+					<input type="submit" id="btnSubmit" value="Submit" class="small success button" />
 				</form>
 			</div>
 		</div>
