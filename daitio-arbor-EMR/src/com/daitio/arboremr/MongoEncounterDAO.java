@@ -24,7 +24,7 @@ public class MongoEncounterDAO {
 	}
 
 	public Encounter createRecord(Encounter r) {
-		DBObject doc = RecordConverter.toDBObject(r);
+		DBObject doc = EncounterConverter.toDBObject(r);
 		this.col.insert(doc);
 		ObjectId id = (ObjectId) doc.get(MongoConnector.MONGO_FIELD_ID);
 		r.setId(id);
@@ -34,7 +34,7 @@ public class MongoEncounterDAO {
 	public void updateRecord(Encounter r) {
 		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, r.getId())
 				.get();
-		this.col.update(query, RecordConverter.toDBObject(r));
+		this.col.update(query, EncounterConverter.toDBObject(r));
 	}
 
 	public void deleteRecord(Encounter r) {
