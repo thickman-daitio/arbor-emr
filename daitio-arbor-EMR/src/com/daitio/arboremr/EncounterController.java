@@ -14,7 +14,7 @@ public class EncounterController {
 	private MongoConnector mongo;
 
 	@RequestMapping(value = "/encounter.html", method = RequestMethod.GET)
-	public ModelAndView addUserFormGet() {
+	public ModelAndView addEncounterFormGet() {
 		ModelAndView model1 = new ModelAndView("encounter");
 
 		try {
@@ -27,13 +27,24 @@ public class EncounterController {
 	}
 
 	@RequestMapping(value = "/encounter.html", method = RequestMethod.POST)
-	public ModelAndView addUserFormPost(@ModelAttribute("record") Encounter record) {
+	public ModelAndView addEncounterFormPost(@ModelAttribute("record") Encounter record) {
 
 		ModelAndView model = new ModelAndView("encounter");
 
 		MongoEncounterDAO uDAO = new MongoEncounterDAO(mongo.getInstance());
-		uDAO.createRecord(record);
+		uDAO.createEncounter(record);
 
 		return model;
 	}
+	
+//	@RequestMapping(value = "/displayencounters.html", method = RequestMethod.GET)
+//	public ModelAndView displayAllEncounters(@ModelAttribute("encounter") Encounter encounter) {
+//
+//		ModelAndView model = new ModelAndView("encounter");
+//
+//		MongoEncounterDAO uDAO = new MongoEncounterDAO(mongo.getInstance());
+//		List<>uDAO.readAllEncounters();
+//
+//		return model;
+//	}
 }

@@ -23,7 +23,7 @@ public class MongoEncounterDAO {
 		this.col = mongo.getDB(MongoConnector.MONGO_DB_NAME).getCollection(MONGO_COLL_RECORDS);
 	}
 
-	public Encounter createRecord(Encounter r) {
+	public Encounter createEncounter(Encounter r) {
 		DBObject doc = EncounterConverter.toDBObject(r);
 		this.col.insert(doc);
 		ObjectId id = (ObjectId) doc.get(MongoConnector.MONGO_FIELD_ID);
@@ -31,32 +31,32 @@ public class MongoEncounterDAO {
 		return r;
 	}
 
-	public void updateRecord(Encounter r) {
+	public void updateEncounter(Encounter r) {
 		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, r.getId())
 				.get();
 		this.col.update(query, EncounterConverter.toDBObject(r));
 	}
 
-	public void deleteRecord(Encounter r) {
+	public void deleteEncounter(Encounter r) {
 		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, r.getId())
 				.get();
 		this.col.remove(query);
 	}
 
-	public User getRecordById(Encounter r) {
+	public Encounter getEncounterById(Encounter r) {
 		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, r.getId())
 				.get();
 		DBObject data = this.col.findOne(query);
-		return UserConverter.toUser(data);
+		return EncounterConverter.toEncounter(data);
 	}
 	
-	public List<User> readAllRecords() {
-		List<User> data = new ArrayList<User>();
+	public List<Encounter> readAllEncounters() {
+		List<Encounter> data = new ArrayList<Encounter>();
 		DBCursor cursor = col.find();
 		while (cursor.hasNext()) {
 			DBObject doc = cursor.next();
-			User u = UserConverter.toUser(doc);
-			data.add(u);
+			Encounter r = EncounterConverter.toEncounter(doc);
+			data.add(r);
 		}
 		return data;
 	}

@@ -27,7 +27,6 @@
 
 
 		&nbsp;
- 		<jsp:include page="menu.jsp" />
 		<div class="row">
 			<div class="large-6 large-centered columns text-center">
 				<div class="panel">
