@@ -7,6 +7,9 @@
 <title>Login Success</title>
 </head>
 <body>
+<jsp:include page="master.jsp" />
+
+<div class="row">
 <h2>Hello, ${user.firstName }</h2>
 <table>
 <tr>
@@ -22,5 +25,8 @@
 	<td><b>Last Name</b></td><td>${user.lastName }</td>
 </tr>
 </table>
+</div>
+
+
 </body>
 </html>

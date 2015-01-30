@@ -67,4 +67,12 @@ public class MainController {
 
 		return model;
 	}
+
+
+	@RequestMapping(value = "/home.html", method = RequestMethod.GET)
+	public ModelAndView homeFormGet() {
+		ModelAndView model = new ModelAndView();
+		
+		return model;
+	}
 }
