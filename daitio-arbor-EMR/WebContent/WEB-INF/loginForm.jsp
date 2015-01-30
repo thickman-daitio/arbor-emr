@@ -1,67 +1,46 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<html>
+<html class="no-js" lang="en">
 <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daitio Health | Welcome</title>
 
-<!-- <link href="<c:url value='/WEB-INF/CSS/login.css' />" rel="stylesheet">
--->
-
-<style>
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700);
-.demo, body { 
-  font-family: "Roboto";
-  margin: 10px;
-  font-size: 12px;
-}
-
-.ripple {
-  background: rgba(0,0,0,0.5);
-}
-
-@btn-primary: #4285f4;
-@btn-primary-text: #FFFFFF;
-
-
-.btn {
-  display: inline-block;
-  padding: 10px;
-  
-  cursor: pointer;
-  border-radius: 4px;
-  text-transform: uppercase;
-  text-decoration: none;
-  
-  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  box-shadow: 0 3px 8px 0 rgba(0, 0, 0, 0.19), 0 6px 13px 0 rgba(0, 0, 0, 0.24);
-  
-
-  &:active {
-    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.23), 3px 8px 20px 0 rgba(0, 0, 0, 0.18), -3px 8px 20px 0 rgba(0, 0, 0, 0.18);
-  }
-
-  &.btn-primary {
-    background: @btn-primary;
-    color: @btn-primary-text;
-  }
-}
-
-</style>
+<link rel="stylesheet" href="/daitio-arbor-EMR/css/foundation.css" type="text/css" />
 
 </head>
-
 <body>
-	<h3>EMR - Application</h3>
-
-	<form:errors path="user1.*" />
-	
 	<form action="/daitio-arbor-EMR/myPage.html" method="post">
-	<table>
-		<tr><td class="demo">Username :</td>  <td>     <input type="text" name="username" />   </td> </tr>
-		<tr><td class="demo">Password :  		</td>  <td>       <input type="text" name="password" />  </td> </tr>
-		
-		<tr><td><input type="submit" value="Login" class="btn btn-primary demo" /></td></tr>
-	</table>
-	</form>
- 
+		<nav class="top-bar" data-topbar role="navigation">
+			<ul class="title-area">
+				<li class="name">
+					<h1>
+						<a href="#">Daitio Health</a>
+					</h1>
+				</li>
+			</ul>
+
+			<section class="top-bar-section"></section>
+		</nav>
+
+
+		&nbsp;
+
+		<div class="row">
+			<div class="large-6 large-centered columns text-center">
+				<div class="panel">
+					<h3>
+						<strong>Welcome.</strong>
+					</h3>
+					<h5>Please log in.</h5>
+					<p>
+						<label>Username</label> <input type="text" name="username" /> <label>Password</label>
+						<input type="password" name="password" /> <input
+							id="cbRememberMe" type="checkbox"><label
+							for="cbRememberMe">Remember Me</label><br> <input
+							type="submit" value="Log In" class="small success button" /><br />
+					</p>
+				</div>
+			</div>
+		</div>
 </body>
 </html>

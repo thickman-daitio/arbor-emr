@@ -13,6 +13,7 @@ import com.mongodb.WriteConcern;
 public class MongoConnector {
 	
 	private MongoClient mongo;
+	
 	public final static String MONGO_DB_NAME = "db_daitio-arbor-emr"; 
 	public final static String MONGO_FIELD_ID = "_id";
 	
@@ -32,14 +33,7 @@ public class MongoConnector {
 		mongo = new MongoClient(addrs, options);
 	}
 	
-	public void addUser() {
-		User user = new User();
-		user.setFirstName("Tom");
-		user.setLastName("Hickman");
-		user.setUsername("thickman");
-		user.setPassword("password");
-		
-		MongoUserDAO mDAO = new MongoUserDAO(mongo);
-		mDAO.createUser(user);
+	public MongoClient getInstance() {
+		return mongo;
 	}
 }

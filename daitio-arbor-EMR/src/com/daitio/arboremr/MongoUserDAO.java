@@ -19,6 +19,7 @@ public class MongoUserDAO {
 	public final static String FIELD_LASTNAME = "lastName";	
 
 	private DBCollection col;
+	
 	private final String MONGO_COLL_USERS = "users";
 	
 	public MongoUserDAO(MongoClient mongo) {
@@ -45,8 +46,15 @@ public class MongoUserDAO {
 		this.col.remove(query);
 	}
 
-	public User readUser(User u) {
+	public User getUserById(User u) {
 		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, u.getId())
+				.get();
+		DBObject data = this.col.findOne(query);
+		return UserConverter.toUser(data);
+	}
+	
+	public User getUserByUsername(String username) {
+		DBObject query = BasicDBObjectBuilder.start().append(FIELD_USERNAME, username)
 				.get();
 		DBObject data = this.col.findOne(query);
 		return UserConverter.toUser(data);
