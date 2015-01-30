@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Daitio Health | Welcome</title>
 
-<link
-	href='http://fonts.googleapis.com/css?family=Roboto:500,400italic,700italic,300,700,500italic,300italic,400'
+<link href='http://fonts.googleapis.com/css?family=Roboto:500,400italic,700italic,300,700,500italic,300italic,400'
 	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="/daitio-arbor-EMR/css/foundation.css"
-	type="text/css" />
+<link rel="stylesheet" href="/daitio-arbor-EMR/CSS/foundation.css"	type="text/css" />
 
 </head>
 <body>
@@ -19,6 +17,7 @@
 				<li class="name">
 					<h1>
 						<a href="#">Daitio Health</a>
+       
 					</h1>
 				</li>
 			</ul>
@@ -28,7 +27,7 @@
 
 
 		&nbsp;
-
+ 		<jsp:include page="menu.jsp" />
 		<div class="row">
 			<div class="large-6 large-centered columns text-center">
 				<div class="panel">
@@ -42,7 +41,7 @@
 						
 						<label>Password</label>
 						<input type="password" name="password" /> 
-						<span class="error-text">${error }</span><br>
+						<span class="error-text">${error}</span><br>
 						
 						<input id="cbRememberMe" type="checkbox"><label	for="cbRememberMe">Remember Me</label><br> 
 						<input type="submit" value="Log In" class="small success button" /><br />
@@ -50,5 +49,6 @@
 				</div>
 			</div>
 		</div>
+	</form>
 </body>
 </html>
