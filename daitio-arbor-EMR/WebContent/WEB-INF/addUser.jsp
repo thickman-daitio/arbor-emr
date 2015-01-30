@@ -21,9 +21,6 @@
 	<input type="submit" id="btnSubmit" value="Submit"/><br>
 	<input type="submit" id="btnEdit" value="Edit User"/><br>
 	</p>
-	<p>
-		${user.username} has been added!
-	</p>
 	</form>
 </body>
 </html>

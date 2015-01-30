@@ -1629,6 +1629,13 @@ fieldset {
 [data-abide] span.error, [data-abide] small.error {
   display: none; }
 
+.error-text {
+  font-size: 1.0rem;
+  font-weight: normal;
+  font-style: italic;
+  color: #f04124;
+}
+
 span.error, small.error {
   display: block;
   padding: 0.375rem 0.5625rem 0.5625rem;

@@ -27,7 +27,7 @@ public class UserConverter {
 		u.setPassword((String) doc.get(MongoUserDAO.FIELD_PASSWORD));
 		u.setFirstName((String) doc.get(MongoUserDAO.FIELD_FIRSTNAME));
 		u.setLastName((String) doc.get(MongoUserDAO.FIELD_LASTNAME));
-		ObjectId id = (ObjectId) doc.get(MongoConnector.MONGO_FIELD_ID);
+		u.setId((ObjectId) doc.get(MongoConnector.MONGO_FIELD_ID));
 		return u;
 	}
 }
