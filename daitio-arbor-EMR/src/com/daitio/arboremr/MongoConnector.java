@@ -36,4 +36,9 @@ public class MongoConnector {
 	public MongoClient getInstance() {
 		return mongo;
 	}
+	
+	public void close() {
+		if (mongo != null)
+			mongo.close();
+	}
 }

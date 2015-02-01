@@ -32,7 +32,7 @@ public class EncounterController {
 		ModelAndView model = new ModelAndView("encounter");
 
 		MongoEncounterDAO uDAO = new MongoEncounterDAO(mongo.getInstance());
-		uDAO.createRecord(record);
+		uDAO.createEncounter(record);
 
 		return model;
 	}

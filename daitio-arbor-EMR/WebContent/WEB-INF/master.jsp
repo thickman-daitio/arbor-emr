@@ -45,9 +45,10 @@
   </section>
 </nav>
 	
-<script language="javascript" type="text/javascript" src="js/vendor/jquery.js"></script>
-<script language="javascript" type="text/javascript" src="js/foundation.min.js"></script>
+<script language="javascript" type="text/javascript" src="/daitio-arbor-EMR/js/vendor/jquery.js"></script>
+<script language="javascript" type="text/javascript" src="/daitio-arbor-EMR/js/foundation.min.js"></script>
 <script language="javascript" type="text/javascript" src="/daitio-arbor-EMR/js/vendor/modernizr.js" ></script>
+<script language="javascript" type="text/javascript" src="/daitio-arbor-EMR/js/vendor/jquery.dataTables.js" ></script>
 <script>
       $(document).foundation();
       $(document).ready(function(){

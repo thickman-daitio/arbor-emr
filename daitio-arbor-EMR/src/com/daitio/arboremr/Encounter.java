@@ -3,8 +3,7 @@ package com.daitio.arboremr;
 import org.bson.types.ObjectId;
 
 public class Encounter {
-	
-	
+		
 	private ObjectId id;
 	private String comments;
 		
@@ -14,7 +13,6 @@ public class Encounter {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	
 	public ObjectId getId() {
 		return id;
 	}

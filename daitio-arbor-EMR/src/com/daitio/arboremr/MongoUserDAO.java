@@ -27,6 +27,12 @@ public class MongoUserDAO {
 	}
 
 	public User createUser(User u) {
+		List<User> compare = getAllUsers();
+		for (int i = 0; i < compare.size(); i++) {
+			if (compare.get(i).getUsername().equals(u.getUsername()))
+				return new User();
+		}
+		
 		DBObject doc = UserConverter.toDBObject(u);
 		this.col.insert(doc);
 		ObjectId id = (ObjectId) doc.get(MongoConnector.MONGO_FIELD_ID);
@@ -57,10 +63,12 @@ public class MongoUserDAO {
 		DBObject query = BasicDBObjectBuilder.start().append(FIELD_USERNAME, username)
 				.get();
 		DBObject data = this.col.findOne(query);
-		return UserConverter.toUser(data);
+		if (data != null)
+			return UserConverter.toUser(data);
+		return new User();
 	}
 
-	public List<User> readAllUsers() {
+	public List<User> getAllUsers() {
 		List<User> data = new ArrayList<User>();
 		DBCursor cursor = col.find();
 		while (cursor.hasNext()) {

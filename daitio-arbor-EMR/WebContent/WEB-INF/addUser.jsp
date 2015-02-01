@@ -9,23 +9,38 @@
 <body>
 	<jsp:include page="master.jsp" />
 	<div class="row">
-		<div class="large-6 large-centered columns text-center">
+		<form action="/daitio-arbor-EMR/adduser.html" method="post">
+		<div class="large-6 large columns text-center">
+		
 			<br>
 			<h3>Add User</h3>
 			<div class="panel">
-				<form action="/daitio-arbor-EMR/adduser.html" method="post">
 					<label>First Name</label>
 					<input type="text" id="txtFirstName" name="firstName" />
 					<label>Last Name</label> 
 					<input type="text" id="txtLastName" name="lastName" />
 					<label>Username</label>
 					<input type="text" id="txtUsername"	name="username" />
-					<label>Password</label> 
+					<label>Temporary Password</label> 
 					<input type="text" id="txtPassword" name="password" />
-					<input type="submit" id="btnSubmit" value="Submit" class="small success button" />
-				</form>
+					<span class="error-text">${error }</span><br><br>
+					<input type="submit" id="btnSubmit" name="action" value="Submit" class="small success button" />									
+				
 			</div>
 		</div>
+		<div class="large-6 large columns text-center">
+			<br>
+			<h3>All Users</h3>
+			<div class="panel">
+				<p>
+					${userList }
+				</p>
+			</div>
+		</div>
+		</form>
 	</div>
+<script>
+
+</script>
 </body>
 </html>

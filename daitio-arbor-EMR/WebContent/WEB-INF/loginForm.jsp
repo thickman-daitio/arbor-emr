@@ -7,7 +7,9 @@
 
 <link href='http://fonts.googleapis.com/css?family=Roboto:500,400italic,700italic,300,700,500italic,300italic,400'
 	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="/daitio-arbor-EMR/CSS/foundation.css"	type="text/css" />
+	
+<link rel="stylesheet" href="/daitio-arbor-EMR/css/foundation.css"	type="text/css" />
+<link rel="stylesheet" href="/daitio-arbor-EMR/css/master.css"	type="text/css" />
 
 </head>
 <body>
@@ -24,10 +26,7 @@
 
 			<section class="top-bar-section"></section>
 		</nav>
-
-
 		&nbsp;
- 		<jsp:include page="menu.jsp" />
 		<div class="row">
 			<div class="large-6 large-centered columns text-center">
 				<div class="panel">
@@ -41,8 +40,7 @@
 						
 						<label>Password</label>
 						<input type="password" name="password" /> 
-						<span class="error-text">${error}</span><br>
-						
+						<span class="error-text">${error }</span><br>
 						<input id="cbRememberMe" type="checkbox"><label	for="cbRememberMe">Remember Me</label><br> 
 						<input type="submit" value="Log In" class="small success button" /><br />
 					</p>
