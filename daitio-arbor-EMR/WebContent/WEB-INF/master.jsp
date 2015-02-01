@@ -9,9 +9,9 @@
 <link
 	href='http://fonts.googleapis.com/css?family=Roboto:500,400italic,700italic,300,700,500italic,300italic,400'
 	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="/daitio-arbor-EMR/css/foundation.css"
+<link rel="stylesheet" href="/daitio-arbor-EMR/CSS/foundation.css"
 	type="text/css" />
-<link rel="stylesheet" href="/daitio-arbor-EMR/css/master.css"
+<link rel="stylesheet" href="/daitio-arbor-EMR/CSS/master.css"
 	type="text/css" />
 
 </head>

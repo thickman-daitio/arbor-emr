@@ -18,7 +18,7 @@ public class EncounterConverter {
 		return builder.get();
 	}
 
-	public static Encounter toRecord(DBObject doc) {
+	public static Encounter toEncounter(DBObject doc) {
 		Encounter r = new Encounter();
 		r.setComments((String) doc.get(MongoEncounterDAO.FIELD_COMMENTS));
 		r.setId((ObjectId) doc.get(MongoConnector.MONGO_FIELD_ID));

@@ -17,10 +17,10 @@ public class MongoEncounterDAO {
 
 	private DBCollection col;
 	
-	private final String MONGO_COLL_ENCOUNTER = "encounter";
+	private final String MONGO_COLL_RECORDS = "record";
 	
 	public MongoEncounterDAO(MongoClient mongo) {
-		this.col = mongo.getDB(MongoConnector.MONGO_DB_NAME).getCollection(MONGO_COLL_ENCOUNTER);
+		this.col = mongo.getDB(MongoConnector.MONGO_DB_NAME).getCollection(MONGO_COLL_RECORDS);
 	}
 
 	public Encounter createEncounter(Encounter r) {
@@ -43,20 +43,20 @@ public class MongoEncounterDAO {
 		this.col.remove(query);
 	}
 
-	public User getEncounterById(Encounter r) {
+	public Encounter getEncounterById(Encounter r) {
 		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, r.getId())
 				.get();
 		DBObject data = this.col.findOne(query);
-		return UserConverter.toUser(data);
+		return EncounterConverter.toEncounter(data);
 	}
 	
-	public List<User> getAllEncounters() {
-		List<User> data = new ArrayList<User>();
+	public List<Encounter> readAllEncounters() {
+		List<Encounter> data = new ArrayList<Encounter>();
 		DBCursor cursor = col.find();
 		while (cursor.hasNext()) {
 			DBObject doc = cursor.next();
-			User u = UserConverter.toUser(doc);
-			data.add(u);
+			Encounter r = EncounterConverter.toEncounter(doc);
+			data.add(r);
 		}
 		return data;
 	}
