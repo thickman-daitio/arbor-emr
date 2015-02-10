@@ -1,10 +1,11 @@
-package com.daitio.arboremr;
+package com.daitio.arboremr.user;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import com.daitio.arboremr.MongoConnector;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -33,7 +34,7 @@ public class MongoUserDAO {
 				return new User();
 		}
 		
-		DBObject doc = UserConverter.toDBObject(u);
+		DBObject doc = User.toDBObject(u);
 		this.col.insert(doc);
 		ObjectId id = (ObjectId) doc.get(MongoConnector.MONGO_FIELD_ID);
 		u.setId(id);
@@ -43,20 +44,20 @@ public class MongoUserDAO {
 	public void updateUser(User u) {
 		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, u.getId())
 				.get();
-		this.col.update(query, UserConverter.toDBObject(u));
+		this.col.update(query, User.toDBObject(u));
 	}
 
-	public void deleteUser(User u) {
-		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, u.getId())
+	public void deleteUser(ObjectId id) {
+		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, id)
 				.get();
 		this.col.remove(query);
 	}
 
-	public User getUserById(User u) {
-		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, u.getId())
+	public User getUserById(ObjectId id) {
+		DBObject query = BasicDBObjectBuilder.start().append(MongoConnector.MONGO_FIELD_ID, id)
 				.get();
 		DBObject data = this.col.findOne(query);
-		return UserConverter.toUser(data);
+		return User.toUser(data);
 	}
 	
 	public User getUserByUsername(String username) {
@@ -64,7 +65,7 @@ public class MongoUserDAO {
 				.get();
 		DBObject data = this.col.findOne(query);
 		if (data != null)
-			return UserConverter.toUser(data);
+			return User.toUser(data);
 		return new User();
 	}
 
@@ -73,7 +74,7 @@ public class MongoUserDAO {
 		DBCursor cursor = col.find();
 		while (cursor.hasNext()) {
 			DBObject doc = cursor.next();
-			User u = UserConverter.toUser(doc);
+			User u = User.toUser(doc);
 			data.add(u);
 		}
 		return data;
