@@ -7,25 +7,32 @@
 <title>Login Success</title>
 </head>
 <body>
-<jsp:include page="master.jsp" />
+<jsp:include page="masterDash.jsp" />
 
-<div class="row">
-<h2>Hello, ${user.firstName }</h2>
-<table>
-<tr>
-	<td><b>Username</b></td><td>${user.username }</td>
-</tr>
-<tr>
-	<td><b>Password (Salt)</b></td><td>${user.password }</td>
-</tr>
-<tr>
-	<td><b>First Name</b></td><td>${user.firstName }</td>
-</tr>
-<tr>
-	<td><b>Last Name</b></td><td>${user.lastName }</td>
-</tr>
-</table>
-</div>
+
+    <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+                <h2>Hello, ${user.firstName }</h2>
+				<table>
+				<tr>
+					<td><b>Username</b></td><td>${user.username }</td>
+				</tr>
+				<tr>
+					<td><b>Password (Salt)</b></td><td>${user.password }</td>
+				</tr>
+				<tr>
+					<td><b>First Name</b></td><td>${user.firstName }</td>
+				</tr>
+				<tr>
+					<td><b>Last Name</b></td><td>${user.lastName }</td>
+				</tr>
+				</table>
+          </section>
+      </section>
+
+      <!--main content end-->    
+
 
 
 </body>
