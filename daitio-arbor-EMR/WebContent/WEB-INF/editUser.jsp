@@ -27,6 +27,7 @@
 					<input type="submit" id="btnDelete" name="action" value="Delete User" class="small alert button wide" />
 					<input type="submit" id="btnSubmit" name="action" value="Submit" class="small success button wide" />										
 			</div>
+			<a href="adduser.html">Back to users</a>
 		</div>
 		</form>
 	</div>
