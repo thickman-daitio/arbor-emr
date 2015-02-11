@@ -1,13 +1,9 @@
-package com.daitio.arboremr.user;
+package com.daitio.arboremr;
 
 import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.util.DigestUtils;
-
-import com.daitio.arboremr.MongoConnector;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
 
 public class User {
 	
@@ -37,7 +33,10 @@ public class User {
 		return password;
 	}
 	public void setPassword(String password) {
-		this.password = hashPassword(password);
+		//if (password.length() > 6)
+			this.password = hashPassword(password);
+		//else
+		//	this.password = null;
 	}
 	public void setHashedPassword(String hashedPassword) {
 		this.password = hashedPassword;
@@ -81,38 +80,12 @@ public class User {
 					+ "</td><td>" 
 					+ uList.get(i).getUsername() 
 					+ "</td>";
-			oReturn += "<td><a href=\"edituser.html?id=" + uList.get(i).getId().toString() + "\">Edit User</a>" + "</td>";
+			oReturn += "<td><a href=\"edituser.html?id=" + uList.get(i).getUsername() + "\">Edit User</a>" + "</td>";
 			oReturn += "</tr>";
 		}
 		
 		oReturn += "</table>";
 		
 		return oReturn;
-	}
-	
-	public static DBObject toDBObject(User u) {
-
-		BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
-				.append(MongoUserDAO.FIELD_USERNAME, u.getUsername())
-				.append(MongoUserDAO.FIELD_PASSWORD, u.getPassword())
-				.append(MongoUserDAO.FIELD_FIRSTNAME, u.getFirstName())
-				.append(MongoUserDAO.FIELD_LASTNAME, u.getLastName());
-
-		if (u.getId() != null)
-			builder = builder.append(MongoConnector.MONGO_FIELD_ID, u.getId());
-
-		return builder.get();
-	}
-
-	public static User toUser(DBObject doc) {
-		User u = new User();
-		
-		u.setUsername((String) doc.get(MongoUserDAO.FIELD_USERNAME));
-		u.setPassword((String) doc.get(MongoUserDAO.FIELD_PASSWORD));
-		u.setFirstName((String) doc.get(MongoUserDAO.FIELD_FIRSTNAME));
-		u.setLastName((String) doc.get(MongoUserDAO.FIELD_LASTNAME));
-		u.setId((ObjectId) doc.get(MongoConnector.MONGO_FIELD_ID));
-		
-		return u;
 	}
 }

@@ -33,9 +33,14 @@ public class EncounterController {
 
 	@RequestMapping(value = "/encounter.html", method = RequestMethod.POST)
 	public ModelAndView addEncounterFormPost(@ModelAttribute("record") Encounter record) {
-
+		startMongoSession();
+		
 		ModelAndView model = new ModelAndView("encounter");
 
+		MongoEncounterDAO uDAO = new MongoEncounterDAO(mongo.getInstance());
+		uDAO.createEncounter(record);
+
+		mongo.close(); 
 		return model;
 	}
 	
