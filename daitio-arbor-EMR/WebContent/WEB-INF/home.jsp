@@ -7,7 +7,7 @@
 <title>Login Success</title>
 </head>
 <body>
-<jsp:include page="masterDash.jsp" />
+<jsp:include page="master.jsp" />
 
 
     <!--main content start-->

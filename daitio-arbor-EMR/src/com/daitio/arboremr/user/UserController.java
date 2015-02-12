@@ -24,7 +24,7 @@ public class UserController extends MasterController {
 			startMongoSession();
 			
 			MongoUserDAO uDAO = new MongoUserDAO(mongo.getInstance());
-			u = uDAO.getUserById(new ObjectId(id));
+			u = uDAO.getUser(new ObjectId(id));
 			
 			model.addObject("username", u.getUsername());
 			model.addObject("firstName", u.getFirstName());
@@ -55,7 +55,7 @@ public class UserController extends MasterController {
 			startMongoSession();
 			
 			MongoUserDAO uDAO = new MongoUserDAO(mongo.getInstance());
-			u = uDAO.getUserByUsername(userId);
+			u = uDAO.getUser(new ObjectId(userId));
 			u.setFirstName(user.getFirstName());
 			u.setLastName(user.getLastName());
 					

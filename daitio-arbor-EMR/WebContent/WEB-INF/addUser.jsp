@@ -10,6 +10,8 @@
 	<jsp:include page="master.jsp" />
 	<div class="row">
 		<form action="/daitio-arbor-EMR/adduser.html" method="post">
+		      <section id="main-content">
+          <section class="wrapper">
 		<div class="large-6 large columns text-center">
 		
 			<br>
@@ -37,6 +39,8 @@
 				</p>
 			</div>
 		</div>
+		</section>
+		</section>
 		</form>
 	</div>
 <script>
