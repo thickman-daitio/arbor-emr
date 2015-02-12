@@ -1,5 +1,8 @@
 package com.daitio.arboremr;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +13,7 @@ import com.daitio.arboremr.user.MongoUserDAO;
 import com.daitio.arboremr.user.User;
 
 @Controller
+@Scope("session")
 public class MainController extends MasterController {
 
 	@RequestMapping(value = "/login.html", method = RequestMethod.GET)
@@ -43,9 +47,11 @@ public class MainController extends MasterController {
 	}
 
 	@RequestMapping(value = "/home.html", method = RequestMethod.GET)
-	public ModelAndView homeFormGet() {
+	public ModelAndView homeFormGet(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 
+		//User user = (User) request.getSession().setAttribute("userSessionBean", );
+		
 		return model;
 	}
 }
