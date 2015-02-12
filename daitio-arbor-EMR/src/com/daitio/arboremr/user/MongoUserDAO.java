@@ -47,6 +47,12 @@ public class MongoUserDAO {
 
 	public User createUser(User u) {
 		
+		List<User> allUsers = getAllUsers();
+		for (int i = 0; i < allUsers.size(); i++) {
+			if (u.getUsername().equals(allUsers.get(i).getUsername()))
+				return new User();
+		}
+		
 		DBObject doc = User.toDBObject(u);
 		
 		this.col.insert(doc);
