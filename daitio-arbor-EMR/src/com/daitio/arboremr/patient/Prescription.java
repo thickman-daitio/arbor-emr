@@ -1,9 +1,16 @@
 package com.daitio.arboremr.patient;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.daitio.arboremr.MongoConnector;
 import com.mongodb.BasicDBList;
@@ -180,4 +187,31 @@ public class Prescription implements PatientListObject {
 				+ ", description=" + description + "]";
 	}
 
+	public static List<Prescription> toPrescriptionList(DBObject db) {
+		List<Prescription> rxList = new ArrayList<Prescription>();
+
+		try {
+			JSONArray arr = new JSONArray(db.toString());
+
+			for (int i = 0; i < arr.length(); i++) {
+				JSONObject obj = arr.getJSONObject(i);
+				
+				Prescription rx = new Prescription();
+				rx.setName(obj.getString(FIELD_PRESCRIPTION_NAME));
+				rx.setMass(obj.getInt(FIELD_MASS));
+				rx.setAmountOfDailyDoses(obj.getInt(FIELD_AMT_DAILY_DOSES));
+				rx.setAmountOfRefills(obj.getInt(FIELD_AMT_REFILLS));
+				rx.setInstructions(obj.getString(FIELD_INSTRUCTIONS));
+				rx.setManufacturer(obj.getString(FIELD_MANUFACTURER));
+				rx.setDescription(obj.getString(FIELD_DESCRIPTION));
+							
+				rxList.add(rx);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+			
+		return rxList;
+	}
 }

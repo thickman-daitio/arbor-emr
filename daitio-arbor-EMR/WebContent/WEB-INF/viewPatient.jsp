@@ -10,7 +10,7 @@
 	<jsp:include page="master.jsp" />
 	<div class="row">
 		<form action="/daitio-arbor-EMR/viewpatient.html" method="post">
-		<div class="large-6 large-centered columns text-center">		
+		<div class="large-6 large columns text-center">		
 			<br>
 			<h3>View Patient</h3>
 			<div class="panel">
@@ -44,7 +44,12 @@
 				<input type="text" id="txtLastName" name="lastName" value="${insuranceType }"/>	
 				<input type="submit" id="btnDelete" name="action" value="Delete Patient" class="small alert button" />								
 			</div>
-			<a href="addpatient.html">Back to patients</a>
+		</div>
+		<div class="large-6 large columns text-center">
+			<br>
+			<h3>Test</h3>
+			<div class="panel">
+			</div>
 		</div>
 		</form>
 	</div>

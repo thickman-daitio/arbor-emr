@@ -2,7 +2,7 @@ package com.daitio.arboremr;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +13,8 @@ import com.daitio.arboremr.user.MongoUserDAO;
 import com.daitio.arboremr.user.User;
 
 @Controller
-@Scope("session")
 public class MainController extends MasterController {
-
+	
 	@RequestMapping(value = "/login.html", method = RequestMethod.GET)
 	public ModelAndView loginFormGet() {
 		ModelAndView model = new ModelAndView("loginDash");
@@ -24,7 +23,7 @@ public class MainController extends MasterController {
 	}
 
 	@RequestMapping(value = "/home.html", method = RequestMethod.POST)
-	public ModelAndView loginFormPost(@ModelAttribute("user") User user) {
+	public ModelAndView loginFormPost(@ModelAttribute("user") User user, HttpServletRequest request) {
 
 		startMongoSession();
 		
@@ -36,6 +35,7 @@ public class MainController extends MasterController {
 		if (compare.getPassword().equals(User.hashPassword(user.getPassword()))) {
 			user.setFirstName(compare.getFirstName());
 			user.setLastName(compare.getLastName());
+								
 			model = new ModelAndView("home");
 		} else {
 			model = new ModelAndView("loginDash");
@@ -47,10 +47,15 @@ public class MainController extends MasterController {
 	}
 
 	@RequestMapping(value = "/home.html", method = RequestMethod.GET)
-	public ModelAndView homeFormGet(HttpServletRequest request) {
+	public ModelAndView homeFormGet(@ModelAttribute("user") User user) {
 		ModelAndView model = new ModelAndView();
-
-		//User user = (User) request.getSession().setAttribute("userSessionBean", );
+				
+		return model;
+	}
+	
+	@RequestMapping(value = "/test.html", method = RequestMethod.GET)
+	public ModelAndView test(@ModelAttribute("user") User user) {
+		ModelAndView model = new ModelAndView("test");
 		
 		return model;
 	}
