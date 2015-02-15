@@ -7,7 +7,7 @@
 <title>Encounter</title>
 </head>
 <body>
-	<jsp:include page="master.jsp" />
+	<jsp:include page="masterDash.jsp" />
 	<div class="row">
 		<div class="large-6 large-centered columns text-center">
 			<br>

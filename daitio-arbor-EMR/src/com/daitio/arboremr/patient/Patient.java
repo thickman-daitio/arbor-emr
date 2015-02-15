@@ -114,7 +114,7 @@ public class Patient {
 	
 	public static String getAllPatientsRepeater(List<Patient> pList) {
 		String oReturn = "";
-		oReturn += "<table style=\"width:100%\">";
+		oReturn += "<table style=\"width:100%\" class=\"table table-striped table-advance table-hover\">";
 		
 		oReturn += "<tr><th>First Name</th><th>Middle Name</th><th>Last Name</th></tr>";
 		

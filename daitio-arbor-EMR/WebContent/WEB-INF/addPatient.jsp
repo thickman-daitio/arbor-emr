@@ -4,35 +4,56 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add User</title>
+<title>Add Patient</title>
 </head>
 <body>
-	<jsp:include page="master.jsp" />
+	<jsp:include page="masterDash.jsp" />
 	<div class="row">
 		<form action="/daitio-arbor-EMR/addpatient.html" method="post">
-			<div class="large-6 large columns text-center">
-				<br>
-				<h3>Add Patient</h3>
-				<div class="panel">
-					<label>First Name</label>
-					<input type="text" id="txtFirstName" name="firstName" />
-					<label>Last Name</label> 
-					<input type="text" id="txtLastName" name="lastName" />
-					<input type="submit" id="btnSubmit" name="action"
-						value="Add Dummy Patient" class="small success button" />
+		  <section id="main-content">
+	          	<section class="wrapper">
+				<div class="col-lg-6 col-lg-6 mb">
+					<div class="content-panel">
+						<h4><i class="fa fa-angle-right"></i>Add Patient</h4>
+						<hr>
+						<div class="panel">
+							<div class="form-group">
+								<label class="col-sm-4 control-label" >First Name</label>
+								<input class="form-control" type="text" id="txtFirstName" name="firstName" value="${firstName }"/>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label" >Last Name</label> 
+								<input class="form-control" type="text" id="txtLastName" name="lastName" value="${lastName }"/>
+							</div>
+							<br/>
+							
+							<div class="form-group">
+								<div>
+									<label class="col-sm-5"></label>
+									<input type="submit" id="btnSubmit" name="action" value="Add Dummy Patient" class="btn btn-primary btn-sm" />			
+								</div>
+							</div>
+							
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="large-6 large columns text-center">
-				<br>
-				<h3>All Patients</h3>
-				<div class="panel">
-					<p>${patientList }</p>
+			
+				<div class="col-md-6 col-sm-6 mb">
+		          	<div class="content-panel">
+		                  	  	  <h4><i class="fa fa-angle-right"></i>All Patients</h4>
+		                  	  	  <hr>
+						<div class="panel">
+							<p>
+								${patientList}
+							</p>
+						</div>
+					</div>
 				</div>
-			</div>
+			
+			</section>
+			</section>		
 		</form>
 	</div>
-	<script>
-		
-	</script>
+
 </body>
 </html>

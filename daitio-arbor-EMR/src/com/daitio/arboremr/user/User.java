@@ -70,7 +70,7 @@ public class User {
 	}
 	public static String getAllUsersRepeater(List<User> uList) {
 		String oReturn = "";
-		oReturn += "<table style=\"width:100%\">";
+		oReturn += "<table style=\"width:100%\" class=\"table table-striped table-advance table-hover\">";
 		
 		oReturn += "<tr><th>First Name</th><th>Last Name</th><th>Username</th></tr>";
 		

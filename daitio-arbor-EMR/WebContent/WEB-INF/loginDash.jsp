@@ -35,9 +35,9 @@
 				<form action="/daitio-arbor-EMR/home.html"  class="form-login" method="post">
 		        <h2 class="form-login-heading">DAITIO | Health</h2>
 		        <div class="login-wrap">
-						<input type="text" name="username" class="form-control" placeholder="User ID" autofocus /> 
+						<input type="text" name="username" class="form-control" style="width: 100%;" placeholder="User ID" autofocus /> 
 		            <br>
-		            <input type="password" name="password" class="form-control" placeholder="Password" /> <br>
+		            <input type="password" name="password" class="form-control" style="width: 100%;" placeholder="Password" /> <br>
 					<span class="error-text">${error }</span><br>
 		            <label class="checkbox">
 		                <span class="pull-right">
