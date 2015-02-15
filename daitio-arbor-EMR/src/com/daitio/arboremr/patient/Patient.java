@@ -107,7 +107,10 @@ public class Patient {
 		p.setEmail((String) doc.get(FIELD_EMAIL));
 		p.setHeight((int) doc.get(FIELD_HEIGHT));
 		p.setInsuranceType((String) doc.get(FIELD_INSURANCE_TYPE));
-		p.setEmergencyContact(EmergencyContact.toEmergencyContact(doc.get(FIELD_EMERGENCY_CONTACT)));
+		p.setEmergencyContact(EmergencyContact.toEmergencyContact((DBObject) doc.get(FIELD_EMERGENCY_CONTACT)));
+		p.setWeightList(Weight.toWeightList((DBObject) doc.get(FIELD_WEIGHT_LIST)));
+		p.setPrescriptions(Prescription.toPrescriptionList((DBObject) doc.get(FIELD_PRESCRIPTIONS)));
+		p.setEncounters(Encounter.toEncounterList((DBObject) doc.get(FIELD_ENCOUNTERS)));
 
 		return p;
 	}

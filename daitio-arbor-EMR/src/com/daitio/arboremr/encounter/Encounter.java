@@ -5,10 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.daitio.arboremr.MongoConnector;
 import com.daitio.arboremr.patient.Patient;
 import com.daitio.arboremr.patient.PatientListObject;
+import com.daitio.arboremr.patient.Prescription;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
@@ -165,5 +169,30 @@ public class Encounter implements PatientListObject {
 		r.setDateTime((Date) doc.get(FIELD_DATE_TIME));
 
 		return r;
+	}
+
+	public static List<Encounter> toEncounterList(DBObject db) {
+		List<Encounter> encounters = new ArrayList<Encounter>();
+
+		try {
+			JSONArray arr = new JSONArray(db.toString());
+
+			for (int i = 0; i < arr.length(); i++) {
+				JSONObject obj = arr.getJSONObject(i);
+				
+				Encounter e = new Encounter();
+				e.setBloodPressureSystolic(obj.getInt(FIELD_BLOOD_PRESSURE_SYSTOLIC));
+				e.setBloodPressureDiastolic(obj.getInt(FIELD_BLOOD_PRESSURE_DIASTOLIC));
+				e.setHeartRate(obj.getInt(FIELD_HEART_RATE));
+				e.setRespiratoryRate(obj.getInt(FIELD_RESPIRATORY_RATE));
+				
+				encounters.add(e);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+			
+		return encounters;
 	}
 }

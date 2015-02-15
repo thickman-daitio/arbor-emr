@@ -1,13 +1,22 @@
 package com.daitio.arboremr.patient;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.bson.types.ObjectId;
 
 import com.daitio.arboremr.MongoConnector;
+import com.google.gson.JsonArray;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 public class Weight implements PatientListObject {
@@ -94,5 +103,34 @@ public class Weight implements PatientListObject {
 		w.setWeight((int) doc.get(FIELD_WEIGHT));
 		
 		return w;
+	}
+
+	public static List<Weight> toWeightList(DBObject db) {
+		List<Weight> wList = new ArrayList<Weight>();
+
+		try {
+			JSONArray arr = new JSONArray(db.toString());
+
+			for (int i = 0; i < arr.length(); i++) {
+				JSONObject obj = arr.getJSONObject(i);
+
+				Weight w = new Weight();
+				w.setWeight(obj.getInt(FIELD_WEIGHT));
+				
+				JSONObject dateObj = obj.getJSONObject(FIELD_DATE);
+				String tst = dateObj.getString("$date");
+
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+				Date date = format.parse(tst);
+				w.setDate(date);
+				
+				wList.add(w);
+			}
+		} catch (JSONException | ParseException e) {
+			e.printStackTrace();
+			System.out.println(e.toString());
+		}
+				
+		return wList;
 	}
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.daitio.arboremr.MasterController;
-import com.daitio.arboremr.user.User;
 
 @Controller
 public class PatientController extends MasterController {

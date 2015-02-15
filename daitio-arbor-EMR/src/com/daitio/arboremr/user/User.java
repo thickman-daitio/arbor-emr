@@ -3,23 +3,21 @@ package com.daitio.arboremr.user;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.springframework.context.annotation.Scope;
 import org.springframework.util.DigestUtils;
 
 import com.daitio.arboremr.MongoConnector;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 
-@Scope("session")
 public class User {
 	
 	private static final String MD5_KEY = "D41t10-4rB0r";
 	
-	private ObjectId id;
-	private String username;
-	private String password;
-	private String firstName;
-	private String lastName;
+	public ObjectId id;
+	public String username;
+	public String password;
+	public String firstName;
+	public String lastName;
 	
 	public User() {
 		super();

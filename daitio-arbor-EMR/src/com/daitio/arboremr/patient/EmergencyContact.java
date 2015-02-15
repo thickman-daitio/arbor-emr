@@ -81,9 +81,21 @@ public class EmergencyContact {
 		return builder.get();
 	}
 	
-	public static EmergencyContact toEmergencyContact(Object db) {
+	public static EmergencyContact toEmergencyContact(DBObject db) {
+		EmergencyContact e = new EmergencyContact();
 		
-		return new EmergencyContact();
+		e.setFirstName((String) db.get(FIELD_FIRST_NAME));
+		e.setLastName((String) db.get(FIELD_LAST_NAME));
+		e.setPrimaryPhone((String) db.get(FIELD_PRIMARY_PHONE));
+		e.setSecondaryPhone((String) db.get(FIELD_SECONDARY_PHONE));
+		e.setRelationshipToPatient((String) db.get(FIELD_RELATIONSHIP_TO_PATIENT));
+		e.setAddress1((String) db.get(FIELD_ADDRESS_1));
+		e.setAddress2((String) db.get(FIELD_ADDRESS_2));
+		e.setCity((String) db.get(FIELD_CITY));
+		e.setState((String) db.get(FIELD_STATE));
+		e.setZip((String) db.get(FIELD_ZIP));
+
+		return e;
 	}
 
 	public ObjectId getId() {
