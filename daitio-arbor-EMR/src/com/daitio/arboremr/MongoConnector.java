@@ -16,6 +16,7 @@ public class MongoConnector {
 	
 	public final static String MONGO_DB_NAME = "db_daitio-arbor-emr"; 
 	public final static String MONGO_FIELD_ID = "_id";
+	public final static String MONGO_PUSH = "$push";
 	
 	public MongoConnector() throws UnknownHostException {
 		

@@ -7,16 +7,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.bson.types.ObjectId;
 
 import com.daitio.arboremr.MongoConnector;
-import com.google.gson.JsonArray;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 public class Weight implements PatientListObject {

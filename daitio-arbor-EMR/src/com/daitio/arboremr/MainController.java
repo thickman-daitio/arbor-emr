@@ -2,7 +2,6 @@ package com.daitio.arboremr;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +46,7 @@ public class MainController extends MasterController {
 	}
 
 	@RequestMapping(value = "/home.html", method = RequestMethod.GET)
-	public ModelAndView homeFormGet(@ModelAttribute("user") User user) {
+	public ModelAndView homeFormGet(/*@ModelAttribute("user") User user*/) {
 		ModelAndView model = new ModelAndView();
 				
 		return model;

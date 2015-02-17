@@ -1,10 +1,6 @@
 package com.daitio.arboremr.patient;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -209,7 +205,6 @@ public class Prescription implements PatientListObject {
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			System.out.println(e.toString());
 		}
 			
 		return rxList;
