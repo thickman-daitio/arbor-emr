@@ -10,9 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.daitio.arboremr.MongoConnector;
-import com.daitio.arboremr.patient.Patient;
 import com.daitio.arboremr.patient.PatientListObject;
-import com.daitio.arboremr.patient.Prescription;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;

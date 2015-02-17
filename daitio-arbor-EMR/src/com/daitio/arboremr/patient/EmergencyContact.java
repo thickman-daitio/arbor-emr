@@ -88,6 +88,7 @@ public class EmergencyContact {
 		e.setLastName((String) db.get(FIELD_LAST_NAME));
 		e.setPrimaryPhone((String) db.get(FIELD_PRIMARY_PHONE));
 		e.setSecondaryPhone((String) db.get(FIELD_SECONDARY_PHONE));
+		e.setEmail((String) db.get(FIELD_EMAIL));
 		e.setRelationshipToPatient((String) db.get(FIELD_RELATIONSHIP_TO_PATIENT));
 		e.setAddress1((String) db.get(FIELD_ADDRESS_1));
 		e.setAddress2((String) db.get(FIELD_ADDRESS_2));

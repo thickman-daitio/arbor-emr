@@ -7,7 +7,7 @@
 <title>TEST</title>
 </head>
 <body>
-	<jsp:include page="master.jsp" />
+	<jsp:include page="masterDash.jsp" />
 	<div class="row">
 		<form action="/daitio-arbor-EMR/home.html" method="post">
 		<section id="main-content">

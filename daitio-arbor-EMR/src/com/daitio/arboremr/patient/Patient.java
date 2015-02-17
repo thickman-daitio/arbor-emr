@@ -55,6 +55,7 @@ public class Patient {
 	private List<String> familyConditions;
 	private List<Activity> activity;
 	private List<Prescription> prescriptions;
+	private String weightListJSON;
 
 	public Patient() {
 
@@ -111,7 +112,7 @@ public class Patient {
 		p.setWeightList(Weight.toWeightList((DBObject) doc.get(FIELD_WEIGHT_LIST)));
 		p.setPrescriptions(Prescription.toPrescriptionList((DBObject) doc.get(FIELD_PRESCRIPTIONS)));
 		p.setEncounters(Encounter.toEncounterList((DBObject) doc.get(FIELD_ENCOUNTERS)));
-
+		p.setWeightListJSON(((DBObject) doc.get(FIELD_WEIGHT_LIST)).toString());
 		return p;
 	}
 	
@@ -358,5 +359,13 @@ public class Patient {
 		p.setEncounters(encounters);
 
 		return p;
+	}
+
+	public String getWeightListJSON() {
+		return weightListJSON;
+	}
+
+	public void setWeightListJSON(String weightListJSON) {
+		this.weightListJSON = weightListJSON;
 	}
 }

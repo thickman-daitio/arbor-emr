@@ -30,10 +30,6 @@
 				</table>
           </section>
       </section>
-
-      <!--main content end-->    
-
-
-
+      <!--main content end-->
 </body>
 </html>
