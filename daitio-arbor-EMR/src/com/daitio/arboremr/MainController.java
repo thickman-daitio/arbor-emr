@@ -6,12 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.daitio.arboremr.user.MongoUserDAO;
 import com.daitio.arboremr.user.User;
 
 @Controller
+@SessionAttributes("sessionUser")
 public class MainController extends MasterController {
 	
 	@RequestMapping(value = "/login.html", method = RequestMethod.GET)
@@ -34,7 +36,7 @@ public class MainController extends MasterController {
 		if (compare.getPassword().equals(User.hashPassword(user.getPassword()))) {
 			user.setFirstName(compare.getFirstName());
 			user.setLastName(compare.getLastName());
-								
+
 			model = new ModelAndView("home");
 		} else {
 			model = new ModelAndView("loginDash");
@@ -42,11 +44,13 @@ public class MainController extends MasterController {
 		}
 		mongo.close();
 		
+		model.addObject("sessionUser", user);
+		
 		return model;
 	}
 
 	@RequestMapping(value = "/home.html", method = RequestMethod.GET)
-	public ModelAndView homeFormGet(/*@ModelAttribute("user") User user*/) {
+	public ModelAndView homeFormGet() {
 		ModelAndView model = new ModelAndView();
 				
 		return model;

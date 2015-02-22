@@ -54,6 +54,8 @@ public class PatientController extends MasterController {
 			MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
 			pDAO.deletePatient(new ObjectId(patientId));
 			
+			System.out.println("HELLO!");
+			
 			mongo.close();
 		}
 		else if (patientId != null && action.equals("Submit Weight")) {

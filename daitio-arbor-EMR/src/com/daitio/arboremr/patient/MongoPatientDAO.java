@@ -1,7 +1,6 @@
 package com.daitio.arboremr.patient;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -34,7 +33,6 @@ public class MongoPatientDAO {
 	}
 
 	public Patient createPatient(Patient p) {
-
 		DBObject doc = Patient.toDBObject(p);
 
 		this.col.insert(doc);

@@ -13,19 +13,19 @@
     <!--main content start-->
       <section id="main-content">
           <section class="wrapper">
-                <h2>Hello, ${user.firstName }</h2>
+                <h2>Hello, ${sessionUser.firstName }</h2>
 				<table>
 				<tr>
-					<td><b>Username</b></td><td>${user.username }</td>
+					<td><b>Username</b></td><td>${sessionUser.username }</td>
 				</tr>
 				<tr>
-					<td><b>Password (Salt)</b></td><td>${user.password }</td>
+					<td><b>Password (Salt)</b></td><td>${sessionUser.password }</td>
 				</tr>
 				<tr>
-					<td><b>First Name</b></td><td>${user.firstName }</td>
+					<td><b>First Name</b></td><td>${sessionUser.firstName }</td>
 				</tr>
 				<tr>
-					<td><b>Last Name</b></td><td>${user.lastName }</td>
+					<td><b>Last Name</b></td><td>${sessionUser.lastName }</td>
 				</tr>
 				</table>
           </section>
