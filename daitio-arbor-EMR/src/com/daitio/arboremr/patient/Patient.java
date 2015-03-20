@@ -1,6 +1,7 @@
 package com.daitio.arboremr.patient;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -79,11 +80,15 @@ public class Patient {
 				.append(FIELD_EMAIL, p.getEmail())
 				.append(FIELD_HEIGHT, p.getHeight())
 				.append(FIELD_INSURANCE_TYPE, p.getInsuranceType())
-				.append(FIELD_EMERGENCY_CONTACT, p.getEmergencyContact().toDBObject())
-				.append(FIELD_WEIGHT_LIST, new Weight().toBasicDBList(p.getWeightList()))
-				.append(FIELD_PRESCRIPTIONS, new Prescription().toBasicDBList(p.getPrescriptions()))
-				.append(FIELD_ENCOUNTERS, new Encounter().toBasicDBList(p.getEncounters()));
-							
+				.append(FIELD_EMERGENCY_CONTACT,
+						p.getEmergencyContact().toDBObject())
+				.append(FIELD_WEIGHT_LIST,
+						new Weight().toBasicDBList(p.getWeightList()))
+				.append(FIELD_PRESCRIPTIONS,
+						new Prescription().toBasicDBList(p.getPrescriptions()))
+				.append(FIELD_ENCOUNTERS,
+						new Encounter().toBasicDBList(p.getEncounters()));
+
 		if (p.getId() != null)
 			builder = builder.append(MongoConnector.MONGO_FIELD_ID, p.getId());
 
@@ -108,35 +113,35 @@ public class Patient {
 		p.setEmail((String) doc.get(FIELD_EMAIL));
 		p.setHeight((int) doc.get(FIELD_HEIGHT));
 		p.setInsuranceType((String) doc.get(FIELD_INSURANCE_TYPE));
-		p.setEmergencyContact(EmergencyContact.toEmergencyContact((DBObject) doc.get(FIELD_EMERGENCY_CONTACT)));
-		p.setWeightList(Weight.toWeightList((DBObject) doc.get(FIELD_WEIGHT_LIST)));
-		p.setPrescriptions(Prescription.toPrescriptionList((DBObject) doc.get(FIELD_PRESCRIPTIONS)));
-		p.setEncounters(Encounter.toEncounterList((DBObject) doc.get(FIELD_ENCOUNTERS)));
+		p.setEmergencyContact(EmergencyContact
+				.toEmergencyContact((DBObject) doc.get(FIELD_EMERGENCY_CONTACT)));
+		p.setWeightList(Weight.toWeightList((DBObject) doc
+				.get(FIELD_WEIGHT_LIST)));
+		p.setPrescriptions(Prescription.toPrescriptionList((DBObject) doc
+				.get(FIELD_PRESCRIPTIONS)));
+		p.setEncounters(Encounter.toEncounterList((DBObject) doc
+				.get(FIELD_ENCOUNTERS)));
 		p.setWeightListJSON(((DBObject) doc.get(FIELD_WEIGHT_LIST)).toString());
 		return p;
 	}
-	
+
 	public static String getAllPatientsRepeater(List<Patient> pList) {
 		String oReturn = "";
 		oReturn += "<table style=\"width:100%\" class=\"table table-striped table-advance table-hover\">";
-		
-		oReturn += "<tr><th>First Name</th><th>Middle Name</th><th>Last Name</th></tr>";
-		
+
+		oReturn += "<tr><th>First Name</th><th>Last Name</th></tr>";
+
 		for (int i = 0; i < pList.size(); i++) {
 			oReturn += "<tr>";
-			oReturn += "<td>" 
-					+ pList.get(i).getFirstName() 
-					+ "</td><td>" 
-					+ pList.get(i).getMiddleName() 
-					+ "</td><td>" 
-					+ pList.get(i).getLastName() 
-					+ "</td>";
-			oReturn += "<td><a href=\"viewpatient.html?id=" + pList.get(i).getId() + "\">View Patient</a>" + "</td>";
+			oReturn += "<td>" + pList.get(i).getFirstName() + "</td><td>"
+					+ pList.get(i).getLastName() + "</td>";
+			oReturn += "<td><a href=\"viewpatient.html?id="
+					+ pList.get(i).getId() + "\">View</a>" + "</td>";
 			oReturn += "</tr>";
 		}
-		
+
 		oReturn += "</table>";
-		
+
 		return oReturn;
 	}
 
@@ -170,6 +175,21 @@ public class Patient {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public int getAge() {
+		Calendar dob = Calendar.getInstance();
+		dob.setTime(dateOfBirth);
+		Calendar today = Calendar.getInstance();
+		int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+		if (today.get(Calendar.MONTH) < dob.get(Calendar.MONTH)) {
+			age--;
+		} else if (today.get(Calendar.MONTH) == dob.get(Calendar.MONTH)
+				&& today.get(Calendar.DAY_OF_MONTH) < dob
+						.get(Calendar.DAY_OF_MONTH)) {
+			age--;
+		}
+		return age;
 	}
 
 	public Date getDateOfBirth() {

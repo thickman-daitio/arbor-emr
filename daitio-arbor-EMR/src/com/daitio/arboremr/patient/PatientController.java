@@ -22,7 +22,7 @@ public class PatientController extends MasterController {
 
 	@RequestMapping(value = { "/viewpatient.html", "/viewpatient.html{?id=}" }, method = RequestMethod.GET) 
 	public ModelAndView viewPatientFormGet(@RequestParam(value = "id", required = false) String id) {
-		ModelAndView model = new ModelAndView("viewPatient");
+		ModelAndView model = new ModelAndView("view-patient");
 		
 		if (id != null) {
 			Patient p = new Patient();
@@ -46,16 +46,14 @@ public class PatientController extends MasterController {
 											@RequestParam String action, 
 											@ModelAttribute("patient") Patient patient, 
 											@ModelAttribute("weight") Weight w) {
-		ModelAndView model = new ModelAndView("viewPatient");
+		ModelAndView model = new ModelAndView("view-patient");
 		
 		if (patientId != null && action.equals("Delete Patient")) {
 			startMongoSession();
 			
 			MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
 			pDAO.deletePatient(new ObjectId(patientId));
-			
-			System.out.println("HELLO!");
-			
+		
 			mongo.close();
 		}
 		else if (patientId != null && action.equals("Submit Weight")) {
@@ -78,7 +76,7 @@ public class PatientController extends MasterController {
 	
 	@RequestMapping(value = "/addpatient.html", method = RequestMethod.GET)
 	public ModelAndView addPatientFormGet() {
-		ModelAndView model = new ModelAndView("addPatient");
+		ModelAndView model = new ModelAndView("add-patient");
 		startMongoSession();		
 		populatePatientList(model);
 		mongo.close();
@@ -87,7 +85,7 @@ public class PatientController extends MasterController {
 
 	@RequestMapping(value = "/addpatient.html", method = RequestMethod.POST)
 	public ModelAndView addPatientFormPost(@ModelAttribute("user") Patient patient) {
-		ModelAndView model = new ModelAndView("addPatient");
+		ModelAndView model = new ModelAndView("add-patient");
 		
 		startMongoSession();
 		

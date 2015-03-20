@@ -23,16 +23,16 @@ public class MasterController {
 	 * Template methods for pages
 	 */
 	/*
-	@RequestMapping(value = "/addpatient.html", method = RequestMethod.GET)
+	@RequestMapping(value = "/<html-page-url>.html", method = RequestMethod.GET)
 	public ModelAndView addPatientFormGet() {
-		ModelAndView model = new ModelAndView("loginForm");
+		ModelAndView model = new ModelAndView("<jsp-page>");
 
 		return model;
 	}
 
-	@RequestMapping(value = "/addpatient.html", method = RequestMethod.POST)
+	@RequestMapping(value = "/<html-page-url>.html", method = RequestMethod.POST)
 	public ModelAndView addPatientFormPost() {
-		ModelAndView model = new ModelAndView("loginForm");
+		ModelAndView model = new ModelAndView("<jsp-page>");
 
 		startMongoSession();
 		

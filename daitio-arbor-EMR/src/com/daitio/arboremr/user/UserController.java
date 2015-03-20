@@ -41,7 +41,7 @@ public class UserController extends MasterController {
 	@RequestMapping(value = "/edituser.html", method = RequestMethod.POST)
 	public ModelAndView editUserFormPost(@RequestParam String action,
 			@ModelAttribute("user") User user) {
-		ModelAndView model = new ModelAndView("editUser");
+		ModelAndView model = new ModelAndView("edit-user");
 
 		if (userId != null && action.equals("Delete User")) {
 
@@ -72,7 +72,7 @@ public class UserController extends MasterController {
 
 	@RequestMapping(value = "/adduser.html", method = RequestMethod.GET)
 	public ModelAndView addUserFormGet() {
-		ModelAndView model = new ModelAndView("addUser");
+		ModelAndView model = new ModelAndView("add-user");
 
 		startMongoSession();
 		populateUserList(model);
@@ -87,7 +87,7 @@ public class UserController extends MasterController {
 
 		startMongoSession();
 
-		ModelAndView model = new ModelAndView("addUser");
+		ModelAndView model = new ModelAndView("add-user");
 		MongoUserDAO uDAO = new MongoUserDAO(mongo.getInstance());
 
 		User u = new User();

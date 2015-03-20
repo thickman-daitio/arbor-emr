@@ -18,8 +18,8 @@
 	href='http://fonts.googleapis.com/css?family=Roboto:500,400italic,700italic,300,700,500italic,300italic,400'
 	rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="/daitio-arbor-health/assets/css/bootstrap.css"
-	type="text/css" />
+<link rel="stylesheet"
+	href="/daitio-arbor-health/assets/css/bootstrap.css" type="text/css" />
 
 <link rel="stylesheet"
 	href="/daitio-arbor-health/assets/font-awesome/css/font-awesome.css"
@@ -40,14 +40,14 @@
 
 <body>
 
-	<section id="container">
-	<!--header start--> <header class="header black-bg">
+	<section id="container"> <!--header start--> <header
+		class="header black-bg">
 	<div class="sidebar-toggle-box">
-		<div class="fa fa-bars tooltips" data-placement="right"
+		<div data-placement="right"
 			data-original-title="Toggle Navigation"></div>
 	</div>
-	<!--logo start--> <a href="#" class="logo"><b>DAITIO |
-			Arbor Health</b></a> <!--logo end-->
+	<!--logo start--> <a href="#" class="logo"><b>DAITIO | Arbor
+			Health</b></a> <!--logo end-->
 	<div class="nav notify-row" id="top_menu">
 		<!--  notification start -->
 		<ul class="nav top-menu">
@@ -65,24 +65,12 @@
 		<!-- sidebar menu start-->
 		<ul class="sidebar-menu" id="nav-accordion">
 
-			<p class="centered">
-				<a href="profile.html"><img src="assets/img/ui-sam.jpg"
-					class="img-circle" width="60"></a>
-			</p>
 
-
-			<li class="mt"><a href="home.html"> <i
-					class="fa fa-dashboard"></i> <span>Home</span>
+			<li class="mt"><a href="home.html">
+					<span>Home</span>
 			</a></li>
-			<li class="sub-menu"><a href="javascript:;"> <i
-					class="fa fa-tasks"></i> <span>User Admin</span>
-			</a>
-				<ul class="sub">
-					<li><a href="adduser.html">Add User</a></li>
-				</ul></li>
-
-			<li class="sub-menu"><a href="javascript:;"> <i
-					class=" fa fa-bar-chart-o"></i> <span>Patient Data</span>
+	
+			<li class="sub-menu"><a href="javascript:;"><span>Patient Data</span>
 			</a>
 				<ul class="sub">
 					<li><a href="addpatient.html">Add/View Patient</a></li>
