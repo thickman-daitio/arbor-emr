@@ -10,7 +10,7 @@
     <meta name="author" content="Dashboard">
     <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-    <title>DAITIO | Arbor-health</title>
+    <title>DAITIO | HEALTH</title>
 
     <!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="/daitio-arbor-health/assets/css/bootstrap.css"	type="text/css" />

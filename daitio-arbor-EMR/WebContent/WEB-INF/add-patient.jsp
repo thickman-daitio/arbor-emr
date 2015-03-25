@@ -7,7 +7,7 @@
 <title>Add Patient</title>
 </head>
 <body>
-	<jsp:include page="master.jsp" />
+	<jsp:include page="master-doctor.jsp" />
 	<div class="row">
 		<form action="/daitio-arbor-health/addpatient.html" method="post">
 		  <section id="main-content">
@@ -39,17 +39,26 @@
 				</div>
 			
 				<div class="col-md-6 col-sm-6 mb">
-		          	<div class="content-panel">
-		                  	  	  <h4>All Patients</h4>
-		                  	  	  <hr>
-						<div class="panel">
-							<p>
-								${patientList}
-							</p>
-						</div>
+					<div class="content-panel">
+						<h4>All Patients</h4>
+						<hr>
+			          	<table id="weightTable" style="width: 100%"
+							class="table table-striped table-advance table-hover">
+							<tr>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th></th>
+							</tr>
+							<c:forEach items="${patientList }" var="list">
+								<tr>
+									<td>${list.firstName }</td> 
+									<td>${list.lastName }</td>
+									<td><a href="viewpatient.html?id=${list.id }">View Patient</a></td>
+								</tr>
+							</c:forEach>
+						</table>
 					</div>
-				</div>
-			
+				</div>			
 			</section>
 			</section>		
 		</form>

@@ -14,6 +14,30 @@ import com.mongodb.DBObject;
 
 public class Patient {
 
+	public enum Status {
+		STATUS_GOOD("GOOD"), STATUS_NEUTRAL("NEUTRAL"), STATUS_BAD("BAD"), STATUS_NONE("");
+
+		private final String code;
+
+		Status(String code) {
+			this.code = code;
+		}
+
+		public String getStatusCode() {
+			return this.code;
+		}
+		
+		public static Status convertStatus(String status) {
+			if (status.equals("GOOD"))
+				return STATUS_GOOD;
+			else if (status.equals("BAD"))
+				return STATUS_BAD;
+			else if (status.equals("NEUTRAL"))
+				return STATUS_NEUTRAL;
+			return STATUS_NONE;
+		}
+	}
+
 	public final static String FIELD_FIRST_NAME = "firstName";
 	public final static String FIELD_MIDDLE_NAME = "middleName";
 	public final static String FIELD_LAST_NAME = "lastName";
@@ -34,6 +58,7 @@ public class Patient {
 	public final static String FIELD_FAMILY_CONDITIONS = "familyConditions";
 	public final static String FIELD_ACTIVITY = "activity";
 	public final static String FIELD_PRESCRIPTIONS = "prescriptions";
+	public final static String FIELD_STATUS = "status";
 
 	private ObjectId id;
 	private String firstName;
@@ -57,9 +82,12 @@ public class Patient {
 	private List<Activity> activity;
 	private List<Prescription> prescriptions;
 	private String weightListJSON;
+	private Status status;
 
 	public Patient() {
-
+		this.firstName = "Test";
+		this.lastName = "Patient";
+		this.status = Status.STATUS_NEUTRAL;
 	}
 
 	public static DBObject toDBObject(Patient p) {
@@ -87,7 +115,8 @@ public class Patient {
 				.append(FIELD_PRESCRIPTIONS,
 						new Prescription().toBasicDBList(p.getPrescriptions()))
 				.append(FIELD_ENCOUNTERS,
-						new Encounter().toBasicDBList(p.getEncounters()));
+						new Encounter().toBasicDBList(p.getEncounters()))
+				.append(FIELD_STATUS, p.getStatus().toString());
 
 		if (p.getId() != null)
 			builder = builder.append(MongoConnector.MONGO_FIELD_ID, p.getId());
@@ -122,27 +151,13 @@ public class Patient {
 		p.setEncounters(Encounter.toEncounterList((DBObject) doc
 				.get(FIELD_ENCOUNTERS)));
 		p.setWeightListJSON(((DBObject) doc.get(FIELD_WEIGHT_LIST)).toString());
-		return p;
-	}
-
-	public static String getAllPatientsRepeater(List<Patient> pList) {
-		String oReturn = "";
-		oReturn += "<table style=\"width:100%\" class=\"table table-striped table-advance table-hover\">";
-
-		oReturn += "<tr><th>First Name</th><th>Last Name</th></tr>";
-
-		for (int i = 0; i < pList.size(); i++) {
-			oReturn += "<tr>";
-			oReturn += "<td>" + pList.get(i).getFirstName() + "</td><td>"
-					+ pList.get(i).getLastName() + "</td>";
-			oReturn += "<td><a href=\"viewpatient.html?id="
-					+ pList.get(i).getId() + "\">View</a>" + "</td>";
-			oReturn += "</tr>";
+		try {
+			p.setStatus(Status.convertStatus((String) doc.get(FIELD_STATUS)));
 		}
-
-		oReturn += "</table>";
-
-		return oReturn;
+		catch (Exception ex) {
+			p.setStatus(Status.STATUS_NEUTRAL);
+		}
+		return p;
 	}
 
 	public ObjectId getId() {
@@ -335,7 +350,7 @@ public class Patient {
 	public static Patient getDummyPatient() {
 		Patient p = new Patient();
 		p.setFirstName("Test");
-		p.setMiddleName("A");
+		p.setMiddleName("");
 		p.setLastName("Patient");
 		p.setDateOfBirth(new Date());
 		p.setAddress1("123 Fake St.");
@@ -348,6 +363,7 @@ public class Patient {
 		p.setEmail("test@daitio.com");
 		p.setHeight(72);
 		p.setInsuranceType("HAP PPO");
+		p.setStatus(Status.STATUS_GOOD);
 		p.setEmergencyContact(new EmergencyContact(null, "Emergency",
 				"Contact", "123-123-1234", "123-123-1234", "test@daitio.com",
 				"Mother", "123 Fake St.", "Apt. 123", "Southgate", USStates.MI,
@@ -387,5 +403,13 @@ public class Patient {
 
 	public void setWeightListJSON(String weightListJSON) {
 		this.weightListJSON = weightListJSON;
+	}
+
+	public String getStatus() {
+		return status.getStatusCode();
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 }

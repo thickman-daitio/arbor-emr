@@ -43,8 +43,7 @@
 	<section id="container"> <!--header start--> <header
 		class="header black-bg">
 	<div class="sidebar-toggle-box">
-		<div data-placement="right"
-			data-original-title="Toggle Navigation"></div>
+		<div data-placement="right" data-original-title="Toggle Navigation"></div>
 	</div>
 	<!--logo start--> <a href="#" class="logo"><b>DAITIO | Arbor
 			Health</b></a> <!--logo end-->
@@ -65,16 +64,10 @@
 		<!-- sidebar menu start-->
 		<ul class="sidebar-menu" id="nav-accordion">
 
-
-			<li class="mt"><a href="home.html">
-					<span>Home</span>
+			<li class="mt"><a href="home.html"> <span>Home</span>
+			</a> <a href="addpatient.html"> <span>Add Patient</span>
 			</a></li>
-	
-			<li class="sub-menu"><a href="javascript:;"><span>Patient Data</span>
-			</a>
-				<ul class="sub">
-					<li><a href="addpatient.html">Add/View Patient</a></li>
-				</ul></li>
+
 		</ul>
 		<!-- sidebar menu end-->
 	</div>

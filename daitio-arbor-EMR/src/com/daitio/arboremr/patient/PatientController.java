@@ -54,6 +54,8 @@ public class PatientController extends MasterController {
 			MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
 			pDAO.deletePatient(new ObjectId(patientId));
 		
+			System.out.println(patientId);
+			
 			mongo.close();
 		}
 		else if (patientId != null && action.equals("Submit Weight")) {
@@ -77,9 +79,12 @@ public class PatientController extends MasterController {
 	@RequestMapping(value = "/addpatient.html", method = RequestMethod.GET)
 	public ModelAndView addPatientFormGet() {
 		ModelAndView model = new ModelAndView("add-patient");
+		
 		startMongoSession();		
-		populatePatientList(model);
+		MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
+		model.addObject("patientList", pDAO.getAllPatients());
 		mongo.close();
+		
 		return model;
 	}
 
@@ -90,11 +95,16 @@ public class PatientController extends MasterController {
 		startMongoSession();
 		
 		MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
+		
 		Patient p = Patient.getDummyPatient();
 		p.setFirstName(patient.getFirstName());
 		p.setLastName(patient.getLastName());
+		p.setStatus(Patient.Status.convertStatus(patient.getStatus()));
+		
+		System.out.println("STATUS: " + patient.getStatus());
+		
 		pDAO.createPatient(p);
-		populatePatientList(model);
+		model.addObject("patientList", pDAO.getAllPatients());
 		mongo.close();
 		
 		return model;
@@ -139,13 +149,5 @@ public class PatientController extends MasterController {
 		model.addObject("weightList", str);
 		
 		return model;
-	}
-	
-	public void populatePatientList(ModelAndView model) {
-		// Requires a mongo session to be open already
-		if (mongo != null) {
-			MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
-			model.addObject("patientList", Patient.getAllPatientsRepeater(pDAO.getAllPatients()));
-		}
 	}
 }

@@ -8,127 +8,170 @@
 <title>View Patient</title>
 </head>
 <body>
-	<jsp:include page="master.jsp" />
-	<div class="row">
-		<form action="/daitio-arbor-health/viewpatient.html" method="post">
-			<div class="large-6 large columns text-center">
-				<br>
-				<h3>Patient Info</h3>
-				<div class="panel">
-					<label>First Name</label> 
-					<input type="text" value="${firstName }" /> 
-					<label>Middle Name</label> 
-					<input type="text" value="${middleName }" /> 
-					<label>Last Name</label> 
-					<input type="text" value="${lastName }" /> 
-					<label>Date of Birth</label> 
-					<input type="text" value="${dateOfBirth }" /> 
-					<label>Address</label> 
-					<input type="text" value="${address1 }" /> 
-					<label>Address</label>
-					<input type="text" value="${address2 }" /> 
-					<label>City</label>
-					<input type="text" value="${city }" /> 
-					<label>State</label>
-					<input type="text" value="${state }" /> 
-					<label>Zip</label>
-					<input type="text" value="${zip }" /> 
-					<label>Primary Phone</label> 
-					<input type="text" value="${primaryPhone }" />
-					<label>Secondary Phone</label> 
-					<input type="text" value="${secondaryPhone }" /> 
-					<label>Email</label> 
-					<input type="text" value="${email }" /> 
-					<label>Height</label>
-					<input type="text" value="${height }" /> 
-					<label>Insurance Type</label> 
-					<input type="text" id="txtLastName" value="${insuranceType }" />
-					<input type="submit" id="btnDelete" name="action" value="Delete Patient" class="small alert button" />
-				</div>
-			</div>
-			<div class="large-6 large columns text-center">
-				<br>
-				<h3>Emergency Contact</h3>
-				<div class="panel">
-					<table style="width: 100%"
-						class="table table-striped table-advance table-hover">
-						<tr>
-							<th>First Name</th>
-							<td>${ecFirstName}</td>
-						</tr>
-						<tr>
-							<th>Last Name</th>
-							<td>${ecLastName }</td>
-						</tr>
-						<tr>
-							<th>Primary Phone</th>
-							<td>${ecPrimaryPhone }</td>
-						</tr>
-						<tr>
-							<th>Secondary Phone</th>
-							<td>${ecSecondaryPhone }</td>
-						</tr>
-						<tr>
-							<th>Email</th>
-							<td>${ecEmail }</td>
-						</tr>
-						<tr>
-							<th>Relationship</th>
-							<td>${ecRelationshipToPatient }</td>
-						</tr>
-						<tr>
-							<th>Address</th>
-							<td>${ecAddress1 }</td>
-						</tr>
-						<tr>
-							<th></th>
-							<td>${ecAddress2 }</td>
-						</tr>
-						<tr>
-							<th>City</th>
-							<td>${ecCity }</td>
-						</tr>
-						<tr>
-							<th>State</th>
-							<td>${ecState }</td>
-						</tr>
-						<tr>
-							<th>Zip</th>
-							<td>${ecZip }</td>
-						</tr>
+	<jsp:include page="master-doctor.jsp" />
+	<section id="main-content"> <section class="wrapper">
 
-					</table>
-				</div>
-			</div>
-			<div class="large-6 large columns text-center">
-				<br>
-				<h3>Weight</h3>
-				<div class="panel">
-					<h5>Weight Check-In</h5>
-					<label>Date</label>
-					<input type="text" value="${today }" name="date"/>
-					<label>Weight</label>
-					<input type="text" id="txtWeight" name="weight" />
-					<input type="submit" id="btnSubmitWeight" name="action"	value="Submit Weight" class="small success button"></input> 
+	<div class="col-md-6 col-sm-6 mb">
+		<div class="content-panel">
+			<h3>Patient Info</h3>
+			<div class="panel">
+				<table style="width: 100%"
+					class="table table-striped table-advance table-hover">
 
-					<h5>Weight History</h5>
-					<div id="my_chart" style=""></div>
-					<table id="weightTable" style="width: 100%"
-						class="table table-striped table-advance table-hover">
-						<tr>
-							<th>Date</th>
-							<th>Weight</th>
-						</tr>
-						<c:forEach items="${weightList }" var="list">
-							<tr>
-								<td>${list.strDate }</td> 
-								<td>${list.strWeight }</td>
-							</tr>
-						</c:forEach>
-					</table>
-				</div>
+					<tr>
+						<th>First Name</th>
+						<td><input type="text" value="${firstName }" /></td>
+					</tr>
+					<tr>
+						<th>Middle Name</th>
+						<td><input type="text" value="${middleName }" /></td>
+					</tr>
+					<tr>
+						<th>Last Name</th>
+						<td><input type="text" value="${lastName }" /></td>
+					</tr>
+					<tr>
+						<th>Date of Birth</th>
+						<td><input type="text" value="${dateOfBirth }" /></td>
+					</tr>
+					<tr>
+						<th>Address</th>
+						<td><input type="text" value="${address1 }" /></td>
+					</tr>
+					<tr>
+						<th>Address</th>
+						<td><input type="text" value="${address2 }" /></td>
+					</tr>
+					<tr>
+						<th>City</th>
+						<td><input type="text" value="${city }" /></td>
+					</tr>
+					<tr>
+						<th>State</th>
+						<td><input type="text" value="${state }" /></td>
+					</tr>
+					<tr>
+						<th>Zip</th>
+						<td><input type="text" value="${zip }" /></td>
+					</tr>
+					<tr>
+						<th>Primary Phone</th>
+						<td><input type="text" value="${primaryPhone }" /></td>
+					</tr>
+					<tr>
+						<th>Secondary Phone</th>
+						<td><input type="text" value="${secondaryPhone }" /></td>
+					</tr>
+					<tr>
+						<th>Email</th>
+						<td><input type="text" value="${email }" /></td>
+					</tr>
+					<tr>
+						<th>Height</th>
+						<td><input type="text" value="${height }" /></td>
+					</tr>
+					<tr>
+						<th>Insurance Type</th>
+						<td><input type="text" id="txtLastName"
+							value="${insuranceType }" /></td>
+					</tr>
+					<tr>
+					<th></th>
+					<td><input type="submit" id="btnDelete" name="action"
+					value="Delete Patient" class="btn btn-danger"/></td>
+					</tr>
+					
+				</table>
+				
 			</div>
-		</form>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-6 mb">
+		<div class="content-panel">
+			<h3>Emergency Contact</h3>
+			<div class="panel">
+				<table style="width: 100%"
+					class="table table-striped table-advance table-hover">
+					<tr>
+						<th>First Name</th>
+						<td>${ecFirstName}</td>
+					</tr>
+					<tr>
+						<th>Last Name</th>
+						<td>${ecLastName }</td>
+					</tr>
+					<tr>
+						<th>Primary Phone</th>
+						<td>${ecPrimaryPhone }</td>
+					</tr>
+					<tr>
+						<th>Secondary Phone</th>
+						<td>${ecSecondaryPhone }</td>
+					</tr>
+					<tr>
+						<th>Email</th>
+						<td>${ecEmail }</td>
+					</tr>
+					<tr>
+						<th>Relationship</th>
+						<td>${ecRelationshipToPatient }</td>
+					</tr>
+					<tr>
+						<th>Address</th>
+						<td>${ecAddress1 }</td>
+					</tr>
+					<tr>
+						<th></th>
+						<td>${ecAddress2 }</td>
+					</tr>
+					<tr>
+						<th>City</th>
+						<td>${ecCity }</td>
+					</tr>
+					<tr>
+						<th>State</th>
+						<td>${ecState }</td>
+					</tr>
+					<tr>
+						<th>Zip</th>
+						<td>${ecZip }</td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 col-sm-6 mb">
+		<div class="content-panel">
+			<!-- <h3>Weight</h3> -->
+			<div class="panel">
+				<!-- 
+						<h5>Weight Check-In</h5>
+						<label>Date</label>
+						<input type="text" value="${today }" name="date"/>
+						<label>Weight</label>
+						<input type="text" id="txtWeight" name="weight" />
+						<input type="submit" id="btnSubmitWeight" name="action"	value="Submit Weight" class="small success button"></input> 
+						-->
+				<h5>Weight History</h5>
+				<div id="my_chart" style=""></div>
+				<table id="weightTable" style="width: 100%"
+					class="table table-striped table-advance table-hover">
+					<tr>
+						<th>Date</th>
+						<th>Weight</th>
+					</tr>
+					<c:forEach items="${weightList }" var="list">
+						<tr>
+							<td>${list.strDate }</td>
+							<td>${list.strWeight }</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>
+	</div>
+	</form>
 	</div>
 	<script type="text/javascript"
 		src="https://www.google.com/jsapi?autoload={

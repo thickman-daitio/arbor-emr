@@ -7,6 +7,8 @@ import com.mongodb.DBObject;
 
 public interface PatientListObject {
 	
+	// Helps handle all the list objects within patient
+	
 	public DBObject toDBObject();
 	public DBObject toDBObject(Object o);
 	public <T> BasicDBList toBasicDBList(List<T> list);
