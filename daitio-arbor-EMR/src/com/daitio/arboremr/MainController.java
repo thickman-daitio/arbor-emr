@@ -45,6 +45,7 @@ public class MainController extends MasterController {
 				model.addObject("result", api.execute());
 			} catch (Exception e) {
 				e.printStackTrace();
+				model.addObject("result", e.toString());
 			}
 		}
 		
