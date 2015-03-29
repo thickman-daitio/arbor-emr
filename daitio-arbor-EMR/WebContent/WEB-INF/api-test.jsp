@@ -22,11 +22,10 @@
 				<hr>
 	
 				<form action="/daitio-arbor-health/api-test.html" method="post">
-					<p>
-						${result }
-					</p>
-					<input type="submit" id="btnSubmit" name="action"
-						value="Do API Call" class="btn btn-danger" />
+					<p>Oauth request token: ${requestToken}
+					<p>Oauth verifier: ${verifier}</p>	
+					<p>Access Token:  ${accessToken} </p>
+					<p>Response body: ${responseBody}</p>
 				</form>
 			</div>
 		</div>

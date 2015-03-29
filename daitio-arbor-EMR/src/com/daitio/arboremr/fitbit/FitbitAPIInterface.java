@@ -1,15 +1,11 @@
-package com.daitio.arboremr.fitbit;
+/*package com.daitio.arboremr.fitbit;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Formatter;
 import java.util.List;
 
 import javax.crypto.Mac;
@@ -21,12 +17,13 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 public class FitbitAPIInterface {
 	
 	// https://api.fitbit.com/oauth/request_token
 	
-	private static final String FITBIT_API		= "https://api.fitbit.com/oauth/request_token";
+	private static final String FITBIT_API		= "https://api.fitbit.com/";
 	private static final String CLIENT_KEY 		= "1c5c4d0bc7fb4758874a751fb46a1a60";   
 	private static final String CLIENT_SECRET 	= "b64533cf350147289398208d757075b8";  
 	
@@ -44,9 +41,7 @@ public class FitbitAPIInterface {
 	private static byte[] buff = new byte[1024];
 	
 	public FitbitAPIInterface() {
-		// oauth_token=<temporary-token>
-		// &oauth_token_secret=<temporary-token-secret>
-		// &oauth_callback_confirmed=true		
+	
 	}
 	
 	public String execute() throws Exception {
@@ -69,10 +64,7 @@ public class FitbitAPIInterface {
 		String base = getSignatureBaseUrl(params, vals);
 		
 		params.add(PARAM_SIGNATURE);
-		
-		System.out.println("SIGNATURE: " + getSignature(base, CLIENT_SECRET));
-		
-		vals.add(getSignature(base, CLIENT_SECRET));
+		vals.add(generateSignature(base, CLIENT_SECRET, null));
 			
 		return doHttpPost(FITBIT_API, params, vals);
 	}
@@ -103,31 +95,8 @@ public class FitbitAPIInterface {
 		Date d = new Date();
 		return String.valueOf(d.getTime());
 	}
-	
-	
-	public static String getSignature(String data, String key)
-			throws SignatureException, NoSuchAlgorithmException,
-			InvalidKeyException {
 		
-		SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA1");
-		Mac mac = Mac.getInstance("HmacSHA1");
-		mac.init(signingKey);
-		
-		return toHexString(mac.doFinal(data.getBytes()));
-	}
-
-	private static String toHexString(byte[] bytes) {
-		Formatter formatter = new Formatter();
-		
-		for (byte b : bytes) {
-			formatter.format("%02x", b);
-		}
- 
-		return formatter.toString();
-	}
-	
-	
-	private String generateSignature(String signatueBaseStr,
+	private String generateSignature(String baseStr,
 			String oAuthConsumerSecret, String oAuthTokenSecret) {
 		byte[] byteHMAC = null;
 		try {
@@ -142,11 +111,11 @@ public class FitbitAPIInterface {
 				spec = new SecretKeySpec(signingKey.getBytes(), "HmacSHA1");
 			}
 			mac.init(spec);
-			byteHMAC = mac.doFinal(signatueBaseStr.getBytes());
+			byteHMAC = mac.doFinal(baseStr.getBytes());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "";// TODO: new BASE64Encoder().encode(byteHMAC);
+		return new Base64().encodeAsString(byteHMAC);
 	}
 	
 	private String encode(String value) {
@@ -220,7 +189,29 @@ public class FitbitAPIInterface {
 	}
 	
 	/*
+	public static String getSignature(String data, String key)
+			throws SignatureException, NoSuchAlgorithmException,
+			InvalidKeyException {
+		
+		SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), "HmacSHA1");
+		Mac mac = Mac.getInstance("HmacSHA1");
+		mac.init(signingKey);
+		
+		return toHexString(mac.doFinal(data.getBytes()));
+	}
+
+	private static String toHexString(byte[] bytes) {
+		Formatter formatter = new Formatter();
+		
+		for (byte b : bytes) {
+			formatter.format("%02x", b);
+		}
+ 
+		return formatter.toString();
+	}
+	*/
 	
+	/*
 	public static String httpPost(String urlStr, String[] paramName,
 			String[] paramVal) throws Exception {
 		
@@ -265,5 +256,4 @@ public class FitbitAPIInterface {
 		return sb.toString();
 	}
 	
-	*/
-}
+}*/
