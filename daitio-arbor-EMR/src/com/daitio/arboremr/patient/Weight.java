@@ -27,7 +27,8 @@ public class Weight implements PatientListObject {
 	private int weight; // lbs
 
 	public Weight() {
-
+		this.date = new Date();
+		this.weight = 0;
 	}
 
 	public Weight(ObjectId id, Date date, int weight) {

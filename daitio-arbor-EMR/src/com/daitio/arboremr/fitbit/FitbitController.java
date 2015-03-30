@@ -1,6 +1,5 @@
 package com.daitio.arboremr.fitbit;
 
-
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,10 +19,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.daitio.arboremr.fitbit.FitbitAPI;
-
-/*
-import edu.seua.scribe.OAuthServiceProvider;
-import static edu.seua.scribe.web.SessionAttributes.*;*/
 
 @Controller
 @SessionAttributes("sessionService")
@@ -45,7 +40,6 @@ public class FitbitController {
 	public String login(WebRequest request, HttpServletResponse res) {
 		// getting request and access token from session
 		//Token accessToken = (Token) request.getAttribute(ATTR_OAUTH_ACCESS_TOKEN, SCOPE_SESSION);
-		
 		
 		if(requestToken == null) {
 			// generate new request token
@@ -113,7 +107,6 @@ public class FitbitController {
 			mav.addObject("response", e.toString());
 		}
 
-		
 		try {
 			mav.addObject("accessToken", accessToken);
 		} catch (Exception e) {
@@ -128,7 +121,6 @@ public class FitbitController {
 			mav.addObject("responseBody", e.toString());
 		}
 		
-
 		return mav;
 	}
 }
