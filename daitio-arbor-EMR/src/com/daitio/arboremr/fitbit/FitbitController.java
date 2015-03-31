@@ -98,6 +98,10 @@ public class FitbitController {
 		Response oauthResponse = oauthRequest.send();
 		//System.out.println(oauthResponse.getBody()); 
 
+
+		OAuthRequest weight = new OAuthRequest(Verb.GET, "https://api.fitbit.com/1/user/-/body/log/weight/date/2015-03-29/1m.json");
+		sessionService.signRequest(accessToken, weight);
+		Response weightResponse = weight.send();		
 		
 		try {
 			mav.addObject("verifier", verifier);
@@ -126,6 +130,13 @@ public class FitbitController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			mav.addObject("responseBody", e.toString());
+		}
+		
+		try {
+			mav.addObject("weight", weightResponse.getBody());
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("weight", e.toString());
 		}
 		
 

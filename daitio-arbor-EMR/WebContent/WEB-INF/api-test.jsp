@@ -26,6 +26,7 @@
 					<p>Oauth verifier: ${verifier}</p>	
 					<p>Access Token:  ${accessToken} </p>
 					<p>Response body: ${responseBody}</p>
+					<p>Weight: ${weight}</p>
 				</form>
 			</div>
 		</div>
