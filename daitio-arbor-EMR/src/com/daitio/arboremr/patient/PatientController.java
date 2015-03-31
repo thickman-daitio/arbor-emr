@@ -57,6 +57,8 @@ public class PatientController extends MasterController {
 			System.out.println(patientId);
 			
 			mongo.close();
+			
+			model = new ModelAndView("doctor-home");
 		}
 		else if (patientId != null && action.equals("Submit Weight")) {
 			startMongoSession();
@@ -72,7 +74,9 @@ public class PatientController extends MasterController {
 
 			mongo.close();
 		}
-				
+		else if (patientId == null)
+			System.out.println("PatientID is null.");
+		
 		return model;
 	}
 	
