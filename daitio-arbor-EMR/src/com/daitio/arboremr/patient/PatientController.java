@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.daitio.arboremr.MasterController;
+import com.daitio.arboremr.user.MongoUserDAO;
+import com.daitio.arboremr.user.User;
 
 @Controller
 public class PatientController extends MasterController {
@@ -46,6 +48,7 @@ public class PatientController extends MasterController {
 											@RequestParam String action, 
 											@ModelAttribute("patient") Patient patient, 
 											@ModelAttribute("weight") Weight w) {
+	
 		ModelAndView model = new ModelAndView("view-patient");
 		
 		if (patientId != null && action.equals("Delete Patient")) {
@@ -53,18 +56,15 @@ public class PatientController extends MasterController {
 			
 			MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
 			pDAO.deletePatient(new ObjectId(patientId));
-		
-			System.out.println(patientId);
-			
+					
 			mongo.close();
-			
-			model = new ModelAndView("doctor-home");
 		}
 		else if (patientId != null && action.equals("Submit Weight")) {
 			startMongoSession();
 			
 			MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
-			Weight weight = new Weight(null, new Date(), w.getWeight());
+			Weight weight = new Weight(new Date(), w.getWeight());
+
 			pDAO.checkInWeight(new ObjectId(patientId), weight);
 			
 			Patient p = new Patient();
@@ -99,15 +99,20 @@ public class PatientController extends MasterController {
 		startMongoSession();
 		
 		MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
+		MongoUserDAO uDAO = new MongoUserDAO(mongo.getInstance());
 		
 		Patient p = Patient.getDummyPatient();
 		p.setFirstName(patient.getFirstName());
 		p.setLastName(patient.getLastName());
-		p.setStatus(Patient.Status.convertStatus(patient.getStatus()));
+		p.setStatus(patient.getStatus()); // Patient.Status.convertStatus(patient.getStatus()));
+		p.setUsername(patient.getUsername());
+		p.setPassword(patient.getPassword(), false);
+				
+		User u = uDAO.createUser(p);
 		
-		System.out.println("STATUS: " + patient.getStatus());
+		if (!u.getUsername().equals(""))
+			pDAO.createPatient(p);
 		
-		pDAO.createPatient(p);
 		model.addObject("patientList", pDAO.getAllPatients());
 		mongo.close();
 		
@@ -115,6 +120,10 @@ public class PatientController extends MasterController {
 	}
 	
 	public ModelAndView addPatientData(ModelAndView model, Patient p) {
+		model.addObject("status", p.getStatus());
+		model.addObject("bmi", String.format("%.1f", p.getBMI()));
+		model.addObject("bmiRange", p.getBMICategory());
+		model.addObject("currweight", String.format("%.1f", p.getCurrentWeightPounds()));
 		model.addObject("firstName", p.getFirstName());
 		model.addObject("middleName", p.getMiddleName());
 		model.addObject("lastName", p.getLastName());
@@ -127,7 +136,7 @@ public class PatientController extends MasterController {
 		model.addObject("primaryPhone", p.getPrimaryPhone());
 		model.addObject("secondaryPhone", p.getSecondaryPhone());
 		model.addObject("email", p.getEmail());
-		model.addObject("height", p.getHeight());
+		model.addObject("height", String.format("%.1f", p.getHeightInches()));
 		model.addObject("insuranceType", p.getInsuranceType());
 		
 		model.addObject("ecFirstName", p.getEmergencyContact().getFirstName());
@@ -148,7 +157,10 @@ public class PatientController extends MasterController {
 		List<Weight> wl = p.getWeightList();
 		
 		for (int i = 0; i < wl.size(); i++) 
-			str.add(new WeightString(new SimpleDateFormat("MMM-dd").format(wl.get(i).getDate()), Integer.toString(wl.get(i).getWeight())));
+			str.add(new WeightString(new SimpleDateFormat("MMM-dd").format(wl.get(i).getDate()), Float.toString(wl.get(i).getWeight())));
+		
+		if (str.isEmpty())
+			str.add(new WeightString(new SimpleDateFormat("MMM-dd").format(new Date()), "0"));
 		
 		model.addObject("weightList", str);
 		

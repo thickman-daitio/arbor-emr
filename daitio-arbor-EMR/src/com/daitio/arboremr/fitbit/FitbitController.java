@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.daitio.arboremr.MasterController;
 import com.daitio.arboremr.fitbit.FitbitAPI;
-
-/*
-import edu.seua.scribe.OAuthServiceProvider;
-import static edu.seua.scribe.web.SessionAttributes.*;*/
+import com.daitio.arboremr.patient.MongoPatientDAO;
+import com.daitio.arboremr.patient.Patient;
+import com.daitio.arboremr.user.MongoUserDAO;
 
 @Controller
 @SessionAttributes("sessionService")
-public class FitbitController {
+public class FitbitController extends MasterController {
 	
 	//@Autowired
 	//@Qualifier("facebookServiceProvider")
@@ -103,6 +103,8 @@ public class FitbitController {
 		sessionService.signRequest(accessToken, weight);
 		Response weightResponse = weight.send();		
 		
+		Patient p = new Patient();
+		
 		try {
 			mav.addObject("verifier", verifier);
 		} catch (Exception e) {
@@ -127,6 +129,8 @@ public class FitbitController {
 		
 		try {
 			mav.addObject("responseBody", oauthResponse.getBody());
+			p = Patient.parseFitbitProfile(oauthResponse.getBody());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			mav.addObject("responseBody", e.toString());
@@ -134,12 +138,17 @@ public class FitbitController {
 		
 		try {
 			mav.addObject("weight", weightResponse.getBody());
+			p.setWeightList(weightResponse.getBody());
 		} catch (Exception e) {
 			e.printStackTrace();
 			mav.addObject("weight", e.toString());
 		}
 		
-
+		startMongoSession();
+		MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
+		pDAO.createPatient(p);		
+		mongo.close();
+		
 		return mav;
 	}
 }

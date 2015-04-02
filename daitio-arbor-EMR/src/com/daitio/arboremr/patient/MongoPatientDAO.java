@@ -45,7 +45,6 @@ public class MongoPatientDAO {
 	public void deletePatient(ObjectId id) {
 		DBObject query = BasicDBObjectBuilder.start()
 				.append(MongoConnector.MONGO_FIELD_ID, id).get();
-		System.out.println(query.toString());
 		this.col.remove(query);
 	}
 

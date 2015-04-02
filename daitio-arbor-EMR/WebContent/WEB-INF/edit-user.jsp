@@ -7,57 +7,67 @@
 <title>Edit User</title>
 </head>
 <body>
-	<jsp:include page="master.jsp" />
+	<jsp:include page="master-doctor.jsp" />
 	<div class="row">
 		<form action="/daitio-arbor-health/edituser.html" method="post">
-		  <section id="main-content">
-          	<section class="wrapper">
+			<section id="main-content"> <section class="wrapper">
 			<br>
 
 			<div class="col-lg-8 col-lg-8 mb">
 				<div class="content-panel">
-					<h4><i class="fa fa-angle-right"></i>Edit User</h4>
+					<h4>Edit User</h4>
 					<hr>
 					<div class="panel">
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >First Name</label>
-							<input class="form-control" type="text" id="txtFirstName" name="firstName" value="${firstName }"/>
+							<label class="col-sm-4 control-label">First Name</label> <input
+								class="form-control" type="text" id="txtFirstName"
+								name="firstName" value="${firstName }" />
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >Last Name</label> 
-							<input class="form-control" type="text" id="txtLastName" name="lastName" value="${lastName }"/>
+							<label class="col-sm-4 control-label">Last Name</label> <input
+								class="form-control" type="text" id="txtLastName"
+								name="lastName" value="${lastName }" />
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >Username</label>
-							<input class="form-control" type="text" id="txtUsername"	name="username" disabled value="${username }"/>
+							<label class="col-sm-4 control-label">Username</label> <input
+								class="form-control" type="text" id="txtUsername"
+								name="username" disabled value="${username }" />
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label" >New Temporary Password (TODO)</label> 
-							<input class="form-control" type="text" id="txtPassword" name="password" value="${password }"/>
+							<label class="col-sm-4 control-label">Role</label> <input
+								class="form-control" type="text" id="txtRole" name="role"
+								value="${role }" />
 						</div>
-						
 						<div class="form-group">
-							<label class="error-text col-sm-4">${error }</span><br><br></label>
+							<label class="col-sm-4 control-label">New Temporary
+								Password</label> <input class="form-control" type="text"
+								id="txtPassword" name="password" value="${password }" />
 						</div>
-						<br/>
-						
+
+						<div class="form-group">
+							<label class="error-text col-sm-4">${error }</span><br>
+							<br></label>
+						</div>
+						<br />
+
 						<div class="form-group">
 							<div>
-								<input type="submit" id="btnDelete" name="action" value="Delete User" class="btn btn-primary btn-sm" />
-								<input type="submit" id="btnSubmit" name="action" value="Submit" class="btn btn-primary btn-sm" />										
+								<input type="submit" id="btnDelete" name="action"
+									value="Delete User" class="btn btn-primary btn-sm" /> <input
+									type="submit" id="btnSubmit" name="action" value="Submit"
+									class="btn btn-primary btn-sm" />
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
 			</div>
-				</section>
-			</section>
+			</section> </section>
 
 		</form>
 	</div>
-<script>
-
-</script>
+	<script>
+		
+	</script>
 </body>
 </html>

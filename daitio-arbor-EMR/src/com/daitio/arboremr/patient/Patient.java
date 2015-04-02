@@ -1,46 +1,46 @@
 package com.daitio.arboremr.patient;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.daitio.arboremr.MongoConnector;
 import com.daitio.arboremr.encounter.Encounter;
+import com.daitio.arboremr.user.User;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 
-public class Patient {
+public class Patient extends User {
 
-	public enum Status {
-		STATUS_GOOD("GOOD"), STATUS_NEUTRAL("NEUTRAL"), STATUS_BAD("BAD"), STATUS_NONE("");
-
-		private final String code;
-
-		Status(String code) {
-			this.code = code;
-		}
-
-		public String getStatusCode() {
-			return this.code;
-		}
-		
-		public static Status convertStatus(String status) {
-			if (status.equals("GOOD"))
-				return STATUS_GOOD;
-			else if (status.equals("BAD"))
-				return STATUS_BAD;
-			else if (status.equals("NEUTRAL"))
-				return STATUS_NEUTRAL;
-			return STATUS_NONE;
-		}
-	}
+	/*
+	 * Not really working the way I want it to.
+	 * 
+	 * public enum Status { STATUS_GOOD("GOOD"), STATUS_NEUTRAL("NEUTRAL"),
+	 * STATUS_BAD("BAD"), STATUS_NONE("");
+	 * 
+	 * private final String code;
+	 * 
+	 * Status(String code) { this.code = code; }
+	 * 
+	 * public String getStatusCode() { return this.code; }
+	 * 
+	 * public static Status convertStatus(String status) { if
+	 * (status.equals("GOOD")) return STATUS_GOOD; else if
+	 * (status.equals("BAD")) return STATUS_BAD; else if
+	 * (status.equals("NEUTRAL")) return STATUS_NEUTRAL; return STATUS_NONE; } }
+	 */
 
 	public final static String FIELD_FIRST_NAME = "firstName";
 	public final static String FIELD_MIDDLE_NAME = "middleName";
 	public final static String FIELD_LAST_NAME = "lastName";
+	public final static String FIELD_GENDER = "gender";
 	public final static String FIELD_DATE_OF_BIRTH = "dateOfBirth";
 	public final static String FIELD_ADDRESS_1 = "address1";
 	public final static String FIELD_ADDRESS_2 = "address2";
@@ -61,9 +61,8 @@ public class Patient {
 	public final static String FIELD_STATUS = "status";
 
 	private ObjectId id;
-	private String firstName;
 	private String middleName;
-	private String lastName;
+	private String gender;
 	private Date dateOfBirth;
 	private String address1;
 	private String address2;
@@ -73,7 +72,7 @@ public class Patient {
 	private String primaryPhone;
 	private String secondaryPhone;
 	private String email;
-	private int height; // inches
+	private double height; // centimetres
 	private String insuranceType;
 	private EmergencyContact emergencyContact;
 	private List<Weight> weightList;
@@ -82,12 +81,25 @@ public class Patient {
 	private List<Activity> activity;
 	private List<Prescription> prescriptions;
 	private String weightListJSON;
-	private Status status;
+	private String status; // Formerly type Status
+
+	public static final String STATUS_GOOD = "GOOD";
+	public static final String STATUS_NEUTRAL = "NEUTRAL";
+	public static final String STATUS_BAD = "BAD";
+
+	public static final String GENDER_MALE = "MALE";
+	public static final String GENDER_FEMALE = "FEMALE";
 
 	public Patient() {
 		this.firstName = "Test";
 		this.lastName = "Patient";
-		this.status = Status.STATUS_NEUTRAL;
+		// this.status = Status.STATUS_NEUTRAL;
+		this.status = STATUS_NEUTRAL;
+		this.role = User.ROLE_PATIENT;
+		this.emergencyContact = new EmergencyContact();
+		this.weightList = new ArrayList<Weight>();
+		this.prescriptions = new ArrayList<Prescription>();
+		this.encounters = new ArrayList<Encounter>();
 	}
 
 	public static DBObject toDBObject(Patient p) {
@@ -116,7 +128,7 @@ public class Patient {
 						new Prescription().toBasicDBList(p.getPrescriptions()))
 				.append(FIELD_ENCOUNTERS,
 						new Encounter().toBasicDBList(p.getEncounters()))
-				.append(FIELD_STATUS, p.getStatus().toString());
+				.append(FIELD_STATUS, p.getStatus());
 
 		if (p.getId() != null)
 			builder = builder.append(MongoConnector.MONGO_FIELD_ID, p.getId());
@@ -140,7 +152,7 @@ public class Patient {
 		p.setPrimaryPhone((String) doc.get(FIELD_PRIMARY_PHONE));
 		p.setSecondaryPhone((String) doc.get(FIELD_SECONDARY_PHONE));
 		p.setEmail((String) doc.get(FIELD_EMAIL));
-		p.setHeight((int) doc.get(FIELD_HEIGHT));
+		p.setHeight((double) doc.get(FIELD_HEIGHT));
 		p.setInsuranceType((String) doc.get(FIELD_INSURANCE_TYPE));
 		p.setEmergencyContact(EmergencyContact
 				.toEmergencyContact((DBObject) doc.get(FIELD_EMERGENCY_CONTACT)));
@@ -151,12 +163,8 @@ public class Patient {
 		p.setEncounters(Encounter.toEncounterList((DBObject) doc
 				.get(FIELD_ENCOUNTERS)));
 		p.setWeightListJSON(((DBObject) doc.get(FIELD_WEIGHT_LIST)).toString());
-		try {
-			p.setStatus(Status.convertStatus((String) doc.get(FIELD_STATUS)));
-		}
-		catch (Exception ex) {
-			p.setStatus(Status.STATUS_NEUTRAL);
-		}
+		p.setStatus((String) doc.get(FIELD_STATUS));
+
 		return p;
 	}
 
@@ -168,12 +176,12 @@ public class Patient {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public String getGender() {
+		return this.gender;
 	}
 
 	public String getMiddleName() {
@@ -184,12 +192,30 @@ public class Patient {
 		this.middleName = middleName;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public float getBMI() {
+		try {
+			return getBMI(weightList.get(weightList.size() - 1));
+		} catch (Exception e) {
+			return 0.0f;
+		}
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public float getBMI(Weight w) {
+		try {
+			return (float) ((w.getWeight() / Math.pow((this.height)/100, 2)));
+		} catch (Exception ex) {
+			return 0.0f;
+		}
+	}
+
+	public String getBMICategory() {
+		if (getBMI() < 18.5)
+			return "Underweight";
+		else if (getBMI() < 24.9)
+			return "Healthy";
+		else if (getBMI() < 29.9)
+			return "Overweight";
+		return "Obese";
 	}
 
 	public int getAge() {
@@ -279,15 +305,19 @@ public class Patient {
 		this.email = email;
 	}
 
-	public int getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
+	public double getHeightInches() {
+		return height * 0.39370;
+	}
+	
 	/**
 	 * @param height
-	 *            Enter height in inches
+	 *            Enter height in centimetres
 	 */
-	public void setHeight(int height) {
+	public void setHeight(double height) {
 		this.height = height;
 	}
 
@@ -363,15 +393,15 @@ public class Patient {
 		p.setEmail("test@daitio.com");
 		p.setHeight(72);
 		p.setInsuranceType("HAP PPO");
-		p.setStatus(Status.STATUS_GOOD);
+		p.setStatus(STATUS_GOOD);
 		p.setEmergencyContact(new EmergencyContact(null, "Emergency",
 				"Contact", "123-123-1234", "123-123-1234", "test@daitio.com",
 				"Mother", "123 Fake St.", "Apt. 123", "Southgate", USStates.MI,
 				"48195"));
 
 		List<Weight> weightList = new ArrayList<Weight>();
-		weightList.add(new Weight(null, new Date(), 180));
-		weightList.add(new Weight(null, new Date(), 181));
+		weightList.add(new Weight(new Date(), 180));
+		weightList.add(new Weight(new Date(), 181));
 		p.setWeightList(weightList);
 
 		List<Prescription> rxList = new ArrayList<Prescription>();
@@ -406,10 +436,68 @@ public class Patient {
 	}
 
 	public String getStatus() {
-		return status.getStatusCode();
+		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public float getCurrentWeight() {
+		return (float) (weightList.get(weightList.size() - 1).getWeight());
+	}
+	
+	public float getCurrentWeightPounds() {
+		return (float) (getCurrentWeight() * 2.2046);
+	}
+
+	public static Patient parseFitbitProfile(String json) {
+		Patient p = new Patient();
+		try {
+			JSONObject object = new JSONObject(json);
+			JSONObject user = object.getJSONObject("user");
+
+			p.setGender(user.getString(FIELD_GENDER));
+			p.setHeight((float) user.getDouble(FIELD_HEIGHT));
+			p.setFirstName(user.getString("displayName"));
+			p.setLastName(user.getString("fullName")
+					.replace(p.getFirstName(), "").replace(" ", ""));
+
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date date = format.parse(user.getString(FIELD_DATE_OF_BIRTH));
+			p.setDateOfBirth(date);
+
+		} catch (Exception ex) {
+			System.out.println("There was an error parsing JSON.");
+			ex.printStackTrace();
+		}
+		return p;
+	}
+
+	public void setWeightList(String json) {
+		try {
+			List<Weight> wList = new ArrayList<Weight>();
+
+			JSONObject object = new JSONObject(json);
+			JSONArray array = object.getJSONArray(Weight.FIELD_WEIGHT);
+
+			for (int i = 0; i < array.length(); i++) {
+				Weight w = new Weight();
+				w.setWeight((float) array.getJSONObject(i).getDouble(
+						Weight.FIELD_WEIGHT));
+
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				Date date = format.parse(array.getJSONObject(i).getString(
+						Weight.FIELD_DATE));
+				w.setDate(date);
+
+				wList.add(w);
+				
+				setWeightList(wList);
+			}
+		} catch (Exception ex) {
+			System.out.println("There was an error parsing JSON.");
+			ex.printStackTrace();
+		}
 	}
 }

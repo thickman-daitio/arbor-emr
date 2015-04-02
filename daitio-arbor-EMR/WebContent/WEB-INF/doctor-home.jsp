@@ -68,6 +68,9 @@
 				<tr>
 					<td><b>Last Name</b></td><td>${sessionUser.lastName }</td>
 				</tr>
+				<tr>
+					<td><b>Role</b></td><td>${sessionUser.role }</td>
+				</tr>
 				</table>
 			</div>
           </section>

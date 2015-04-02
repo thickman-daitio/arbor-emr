@@ -18,7 +18,7 @@ public class UserController extends MasterController {
 	@RequestMapping(value = { "/edituser.html", "/edituser.html{?id=}" }, method = RequestMethod.GET)
 	public ModelAndView editUserFormGet(
 			@RequestParam(value = "id", required = false) String id) {
-		ModelAndView model = new ModelAndView("editUser");
+		ModelAndView model = new ModelAndView("edit-user");
 
 		if (id != null) {
 			User u = new User();
@@ -30,6 +30,7 @@ public class UserController extends MasterController {
 			model.addObject("username", u.getUsername());
 			model.addObject("firstName", u.getFirstName());
 			model.addObject("lastName", u.getLastName());
+			model.addObject("role", u.getRole());
 
 			mongo.close();
 			userId = id;
@@ -60,8 +61,9 @@ public class UserController extends MasterController {
 			u = uDAO.getUser(new ObjectId(userId));
 			u.setFirstName(user.getFirstName());
 			u.setLastName(user.getLastName());
+			u.setRole(user.getRole());
 
-			// TODO: Password setting
+			u.setPassword(user.getPassword(), false);
 
 			uDAO.updateUser(u);
 			mongo.close();
@@ -100,14 +102,15 @@ public class UserController extends MasterController {
 			return model;
 		}
 
-		if (action.equals("Submit"))
+		if (action.equals("Submit")) {
 			u = uDAO.createUser(user);
+		}
 
 		if (u.getUsername().equals(""))
 			model.addObject("error", "Username already in use.");
 
 		populateUserList(model);
-			
+
 		mongo.close();
 
 		return model;
@@ -117,8 +120,7 @@ public class UserController extends MasterController {
 		// Requires a mongo session to be open already
 		if (mongo != null) {
 			MongoUserDAO uDAO = new MongoUserDAO(mongo.getInstance());
-			model.addObject("userList",
-					User.getAllUsersRepeater(uDAO.getAllUsers()));
+			model.addObject("userList", uDAO.getAllUsers());
 		}
 	}
 }

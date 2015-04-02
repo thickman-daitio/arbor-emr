@@ -34,7 +34,18 @@ public class EmergencyContact {
 	public String zip;
 
 	public EmergencyContact() {
-
+		this.id = null;
+		this.firstName = "";
+		this.lastName = "";
+		this.primaryPhone = "";
+		this.secondaryPhone = "";
+		this.email = "";
+		this.relationshipToPatient = "";
+		this.address1 = "";
+		this.address2 = "";
+		this.city = "";
+		this.state = "";
+		this.zip = "";
 	}
 
 	public EmergencyContact(ObjectId id, String firstName, String lastName,

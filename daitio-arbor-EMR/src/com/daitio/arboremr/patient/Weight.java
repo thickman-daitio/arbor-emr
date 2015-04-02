@@ -22,27 +22,17 @@ public class Weight implements PatientListObject {
 	public static final String FIELD_DATE = "date";
 	public static final String FIELD_WEIGHT = "weight";
 
-	private ObjectId id;
 	private Date date;
-	private int weight; // lbs
+	private float weight; // kilograms
 
 	public Weight() {
 		this.date = new Date();
 		this.weight = 0;
 	}
 
-	public Weight(ObjectId id, Date date, int weight) {
-		this.id = id;
+	public Weight(Date date, float weight) {
 		this.date = date;
 		this.weight = weight;
-	}
-
-	public ObjectId getId() {
-		return id;
-	}
-
-	public void setId(ObjectId id) {
-		this.id = id;
 	}
 
 	public Date getDate() {
@@ -53,15 +43,15 @@ public class Weight implements PatientListObject {
 		this.date = date;
 	}
 
-	/**
-	 * @param height
-	 *            Enter weight in lbs
-	 */
-	public int getWeight() {
+	public float getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	/**
+	 * @param weight
+	 *            Enter weight in kilograms
+	 */
+	public void setWeight(float weight) {
 		this.weight = weight;
 	}
 
@@ -75,11 +65,6 @@ public class Weight implements PatientListObject {
 		BasicDBObjectBuilder builder = BasicDBObjectBuilder.start()
 				.append(FIELD_DATE, ((Weight) o).getDate())
 				.append(FIELD_WEIGHT, ((Weight) o).getWeight());
-
-		if (((Weight) o).getId() != null)
-			builder = builder.append(MongoConnector.MONGO_FIELD_ID,
-					((Weight) o).getId());
-
 		return builder.get();
 	}
 
@@ -99,7 +84,7 @@ public class Weight implements PatientListObject {
 		Weight w = new Weight();
 		
 		w.setDate((Date) doc.get(FIELD_DATE));
-		w.setWeight((int) doc.get(FIELD_WEIGHT));
+		w.setWeight((float) doc.get(FIELD_WEIGHT));
 		
 		return w;
 	}

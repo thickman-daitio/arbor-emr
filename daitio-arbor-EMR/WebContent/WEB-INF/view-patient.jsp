@@ -13,7 +13,79 @@
 		<form action="/daitio-arbor-health/viewpatient.html" method="post">
 			<section id="main-content"> <section class="wrapper">
 
-			<div class="col-md-6 col-sm-6 mb">
+			<div class="col-md-6 col-md-6 mb">
+				<div class="content-panel">
+					<h3>${firstName } ${lastName }</h3>
+					<div class="panel">
+						<div class="form-group">
+							<label class="col-sm-4 control-label" >Status</label>
+							${status }
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" >Height</label>
+							${height } in.
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" >Weight</label>
+							${currweight } lbs.
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" >BMI</label>
+							${bmi } (${bmiRange })
+						</div>
+					</div>
+					<h4></h4>
+					<br><br>
+					<input type="submit" id="btnDelete" name="action"
+						value="Delete Patient" class="btn btn-danger" />
+					<input type="submit" id="btnSchedule" name="action"
+						value="Schedule Appointment" class="btn btn-success" />
+					<br>
+					&nbsp;
+				</div>
+			</div>
+
+			<div class="col-md-6 col-md-6 mb">
+				<div class="content-panel">
+					<h5>Log Weight</h5>
+					<table style="width: 100%"
+						class="table table-striped table-advance table-hover">
+						<tr>
+							<th>Date</th>
+							<td><input type="text" value="${today }" name="date" /></td>
+						</tr>
+						<tr>
+							<th>Weight</th>
+							<td><input type="text" id="txtWeight" name="weight" /></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><input type="submit" id="btnSubmitWeight" name="action"
+								value="Submit Weight" class="btn btn-success"></input></td>
+						</tr>
+					</table>
+				</div>
+				<div class="content-panel">
+					<!-- <h3>Weight</h3> -->
+
+					<h5>Weight History</h5>
+					<div id="my_chart" style=""></div>
+					<table id="weightTable" style="width: 100%"
+						class="table table-striped table-advance table-hover">
+						<tr>
+							<th>Date</th>
+							<th>Weight</th>
+						</tr>
+						<c:forEach items="${weightList }" var="list">
+							<tr>
+								<td>${list.strDate }</td>
+								<td>${list.strWeight }</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+			</div>
+			<!-- 		<div class="col-md-6 col-sm-6 mb" style="display: none">
 				<div class="content-panel">
 					<h3>Patient Info</h3>
 					<div class="panel">
@@ -88,7 +160,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6 col-sm-6 mb">
+			<div class="col-md-6 col-sm-6 mb" style="display: none">
 				<div class="content-panel">
 					<h3>Emergency Contact</h3>
 					<div class="panel">
@@ -143,55 +215,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6 col-sm-6 mb">
-				<div class="content-panel">
-					<!-- <h3>Weight</h3> -->
-					<div class="panel">
-
-						<h5>Weight Check-In</h5>
-						<table style="width: 100%"
-							class="table table-striped table-advance table-hover">
-							<tr>
-								<th>Date</th>
-								<td><input type="text" value="${today }" name="date" /></td>
-							</tr>
-							<tr>
-								<th>Weight</th>
-								<td><input type="text" id="txtWeight" value="0" name="weight" /></td>
-							</tr>
-							<tr>
-								<th></th>
-								<td><input type="submit" id="btnSubmitWeight" name="action"
-									value="Submit Weight" class="btn btn-success"></input></td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6 col-sm-6 mb">
-				<div class="content-panel">
-					<!-- <h3>Weight</h3> -->
-					<div class="panel">
-
-						<h5>Weight History</h5>
-						<div id="my_chart" style=""></div>
-						<table id="weightTable" style="width: 100%"
-							class="table table-striped table-advance table-hover">
-							<tr>
-								<th>Date</th>
-								<th>Weight</th>
-							</tr>
-							<c:forEach items="${weightList }" var="list">
-								<tr>
-									<td>${list.strDate }</td>
-									<td>${list.strWeight }</td>
-								</tr>
-							</c:forEach>
-						</table>
-					</div>
-				</div>
-			</div>
-			</section> </section>
+			--> </section> </section>
 		</form>
 	</div>
 	<script type="text/javascript"

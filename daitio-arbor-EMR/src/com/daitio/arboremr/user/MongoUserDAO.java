@@ -18,6 +18,7 @@ public class MongoUserDAO {
 	public static final String FIELD_PASSWORD = "password";
 	public static final String FIELD_FIRSTNAME = "firstName";
 	public static final String FIELD_LASTNAME = "lastName";
+	public static final String FIELD_ROLE = "role";
 	
 	private DBCollection col;
 
