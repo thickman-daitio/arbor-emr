@@ -1,154 +1,81 @@
 package com.daitio.arboremr.fitbit;
 
-
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.model.*;
+import org.scribe.model.Response;
+import org.scribe.model.Token;
+import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
-
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.daitio.arboremr.MasterController;
-import com.daitio.arboremr.fitbit.FitbitAPI;
 import com.daitio.arboremr.patient.MongoPatientDAO;
 import com.daitio.arboremr.patient.Patient;
-import com.daitio.arboremr.user.MongoUserDAO;
 
 @Controller
 @SessionAttributes("sessionService")
 public class FitbitController extends MasterController {
-	
-	//@Autowired
-	//@Qualifier("facebookServiceProvider")
-	// CREATE THE OAUTH OBJECT FROM FITBIT API CLASS
-	OAuthService sessionService = new ServiceBuilder()
-			.provider(FitbitAPI.class)
-			.apiKey("1c5c4d0bc7fb4758874a751fb46a1a60")
-			.apiSecret("b64533cf350147289398208d757075b8")
-			.callback("http://localhost:8080/daitio-arbor-health/fitbit-callback.html")
-			.build();
-	
-	Token requestToken = sessionService.getRequestToken();
-		
-	@RequestMapping(value={"/login-fitbit"}, method = RequestMethod.GET)
-	public String login(WebRequest request, HttpServletResponse res) {
-		// getting request and access token from session
-		//Token accessToken = (Token) request.getAttribute(ATTR_OAUTH_ACCESS_TOKEN, SCOPE_SESSION);
-		
-		
-		if(requestToken == null) {
-			// generate new request token
-			OAuthService service = new ServiceBuilder()
-			.provider(FitbitAPI.class)
-			.apiKey("1c5c4d0bc7fb4758874a751fb46a1a60")
-			.apiSecret("b64533cf350147289398208d757075b8")
-			.callback("http://localhost:8080/daitio-arbor-health/api-test.html")
-			.build();
-			
-			// GETS THE REQUEST TOKEN
-			requestToken = service.getRequestToken();
 
-			// MAKE USER VALIDATE URL
-			//String authUrl = service.getAuthorizationUrl(requestToken);
-			
-			
-			// redirect to facebook auth page
-			return "redirect:" + service.getAuthorizationUrl(requestToken);
-		}
+	OAuthService sessionService = FitbitAPIInterface.getOAuthService();
+	Token requestToken = sessionService.getRequestToken();
+
+	@RequestMapping(value = { "/login-fitbit" }, method = RequestMethod.GET)
+	public String login(WebRequest request, HttpServletResponse res) {
 		return "redirect:" + sessionService.getAuthorizationUrl(requestToken);
-		
 	}
-	
-	@RequestMapping(value={"/fitbit-callback"}, method = RequestMethod.GET)
-	public ModelAndView callback(@RequestParam(value="code", required=false) String oauthVerifier, WebRequest request, HttpServletRequest req) {
+
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = { "/fitbit-callback" }, method = RequestMethod.GET)
+	public ModelAndView callback(
+			@RequestParam(value = "code", required = false) String oauthVerifier,
+			WebRequest request, HttpServletRequest req) {
 
 		ModelAndView mav = new ModelAndView("api-test");
-		
+
+		// Get access token
 		String code = "";
 		Enumeration paramEnum = req.getParameterNames();
 		while (paramEnum.hasMoreElements()) {
-		String name = (String) paramEnum.nextElement();
-		if (name.equals("oauth_verifier")) {
-		    code = req.getParameter(name);
+			String name = (String) paramEnum.nextElement();
+			if (name.equals("oauth_verifier")) {
+				code = req.getParameter(name);
+			}
 		}
-		}
-		
-		// getting request token
-		//Token requestToken = sessionService.getRequestToken();
-		
-		// getting access token
 		Verifier verifier = new Verifier(code);
 		Token accessToken = sessionService.getAccessToken(requestToken, verifier);
 		
-
-		//getting user profile 
-		OAuthRequest oauthRequest = new OAuthRequest(Verb.GET, "https://api.fitbit.com/1/user/-/profile.json");
-		sessionService.signRequest(accessToken, oauthRequest);
-		Response oauthResponse = oauthRequest.send();
-		//System.out.println(oauthResponse.getBody()); 
-
-
-		OAuthRequest weight = new OAuthRequest(Verb.GET, "https://api.fitbit.com/1/user/-/body/log/weight/date/2015-03-29/1m.json");
-		sessionService.signRequest(accessToken, weight);
-		Response weightResponse = weight.send();		
+		// Get API requests
+		Response user = FitbitAPIInterface.getUserRequest(accessToken);
+		Response weight = FitbitAPIInterface.getWeightRequest(accessToken);
 		
+		// Display elements on page
+		mav.addObject("verifier", verifier);
+		mav.addObject("requestToken", requestToken);
+		mav.addObject("accessToken", accessToken);
+		mav.addObject("responseBody", user.getBody());
+		mav.addObject("weight", weight.getBody());
+		
+		// Set patient data from Fitbit
 		Patient p = new Patient();
-		
-		try {
-			mav.addObject("verifier", verifier);
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("response", e.toString());
-		}		
-		
-		try {
-			mav.addObject("requestToken", requestToken);
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("response", e.toString());
-		}
+		p.parseFitbitProfile(user.getBody());
+		p.setWeightList(weight.getBody());
 
-		
-		try {
-			mav.addObject("accessToken", accessToken);
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("response", e.toString());
-		}
-		
-		try {
-			mav.addObject("responseBody", oauthResponse.getBody());
-			p = Patient.parseFitbitProfile(oauthResponse.getBody());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("responseBody", e.toString());
-		}
-		
-		try {
-			mav.addObject("weight", weightResponse.getBody());
-			p.setWeightList(weightResponse.getBody());
-		} catch (Exception e) {
-			e.printStackTrace();
-			mav.addObject("weight", e.toString());
-		}
-		
+		// Save patient in MongoDB
 		startMongoSession();
 		MongoPatientDAO pDAO = new MongoPatientDAO(mongo.getInstance());
-		pDAO.createPatient(p);		
+		p.setAccessToken(accessToken);
+		pDAO.createPatient(p);
 		mongo.close();
-		
+
 		return mav;
 	}
 }

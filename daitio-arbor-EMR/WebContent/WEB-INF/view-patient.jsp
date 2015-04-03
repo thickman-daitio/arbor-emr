@@ -36,6 +36,8 @@
 					</div>
 					<h4></h4>
 					<br><br>
+					${apitest }
+					<br><br>
 					<input type="submit" id="btnDelete" name="action"
 						value="Delete Patient" class="btn btn-danger" />
 					<input type="submit" id="btnSchedule" name="action"

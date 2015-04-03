@@ -10,6 +10,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.scribe.model.Token;
 
 import com.daitio.arboremr.MongoConnector;
 import com.daitio.arboremr.encounter.Encounter;
@@ -59,6 +60,8 @@ public class Patient extends User {
 	public final static String FIELD_ACTIVITY = "activity";
 	public final static String FIELD_PRESCRIPTIONS = "prescriptions";
 	public final static String FIELD_STATUS = "status";
+	public final static String FIELD_TOKEN = "token";
+	public final static String FIELD_SECRET = "secret";
 
 	private ObjectId id;
 	private String middleName;
@@ -82,6 +85,8 @@ public class Patient extends User {
 	private List<Prescription> prescriptions;
 	private String weightListJSON;
 	private String status; // Formerly type Status
+	private String token;
+	private String secret;
 
 	public static final String STATUS_GOOD = "GOOD";
 	public static final String STATUS_NEUTRAL = "NEUTRAL";
@@ -128,8 +133,12 @@ public class Patient extends User {
 						new Prescription().toBasicDBList(p.getPrescriptions()))
 				.append(FIELD_ENCOUNTERS,
 						new Encounter().toBasicDBList(p.getEncounters()))
-				.append(FIELD_STATUS, p.getStatus());
-
+				.append(FIELD_STATUS, p.getStatus())
+				.append(FIELD_TOKEN, p.getToken())
+				.append(FIELD_SECRET, p.getSecret());
+		
+		System.out.println(p.getToken());
+		
 		if (p.getId() != null)
 			builder = builder.append(MongoConnector.MONGO_FIELD_ID, p.getId());
 
@@ -164,6 +173,8 @@ public class Patient extends User {
 				.get(FIELD_ENCOUNTERS)));
 		p.setWeightListJSON(((DBObject) doc.get(FIELD_WEIGHT_LIST)).toString());
 		p.setStatus((String) doc.get(FIELD_STATUS));
+		p.setToken((String) doc.get(FIELD_TOKEN)); 
+		p.setSecret((String) doc.get(FIELD_SECRET));
 
 		return p;
 	}
@@ -442,6 +453,31 @@ public class Patient extends User {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String accessToken) {
+		this.token = accessToken;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public void setSecret(String tokenSecret) {
+		this.secret = tokenSecret;
+	}
+	
+	public void setAccessToken(Token token) {
+		setToken(token.getToken());
+		setSecret(token.getSecret());
+	}
+
+	public Token getAccessToken() {
+		return new Token(token, secret);
+	}
 
 	public float getCurrentWeight() {
 		return (float) (weightList.get(weightList.size() - 1).getWeight());
@@ -451,8 +487,8 @@ public class Patient extends User {
 		return (float) (getCurrentWeight() * 2.2046);
 	}
 
-	public static Patient parseFitbitProfile(String json) {
-		Patient p = new Patient();
+	public void parseFitbitProfile(String json) {
+		Patient p = this;
 		try {
 			JSONObject object = new JSONObject(json);
 			JSONObject user = object.getJSONObject("user");
@@ -471,7 +507,6 @@ public class Patient extends User {
 			System.out.println("There was an error parsing JSON.");
 			ex.printStackTrace();
 		}
-		return p;
 	}
 
 	public void setWeightList(String json) {

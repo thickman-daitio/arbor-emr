@@ -64,9 +64,20 @@
 		<!-- sidebar menu start-->
 		<ul class="sidebar-menu" id="nav-accordion">
 
-			<li class="mt"><a href="home.html"> <span>Home</span>
-			</a> <a href="addpatient.html"> <span>Add Patient</span>
-			</a></li>
+			<li class="mt">
+				<a href="home.html"> 
+					<span>Home</span>
+				</a> 
+				<a href="addpatient.html"> 
+					<span>Add Patient</span>
+				</a> 
+				<a href="adduser.html"> 
+					<span>Add User</span>
+				</a> 
+				<a href="login-fitbit"> 
+					<span>API Test</span>
+				</a>
+			</li>
 
 		</ul>
 		<!-- sidebar menu end-->

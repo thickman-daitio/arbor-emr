@@ -45,12 +45,13 @@ public class MainController extends MasterController {
 			user.setLastName(compare.getLastName());
 			user.setRole(compare.getRole());
 			
-			if (user.getRole().equals(User.ROLE_PATIENT)) {
-				model = new ModelAndView("login-fitbit");
-			}
-			else {
+			// Eventually just take user to the authentication screen
+			// if (user.getRole().equals(User.ROLE_PATIENT)) {
+			// 	model = new ModelAndView("login-fitbit");
+			// }
+			// else {
 				model = new ModelAndView("doctor-home");
-			}
+			// }
 			
 			populatePatientList(model);
 		} else {
