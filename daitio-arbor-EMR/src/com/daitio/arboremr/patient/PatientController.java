@@ -6,11 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Verb;
-import org.scribe.oauth.OAuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.daitio.arboremr.Functions;
 import com.daitio.arboremr.MasterController;
-import com.daitio.arboremr.fitbit.FitbitAPI;
 import com.daitio.arboremr.fitbit.FitbitAPIInterface;
 import com.daitio.arboremr.user.MongoUserDAO;
 import com.daitio.arboremr.user.User;

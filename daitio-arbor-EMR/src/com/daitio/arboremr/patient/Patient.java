@@ -95,6 +95,11 @@ public class Patient extends User {
 	public static final String GENDER_MALE = "MALE";
 	public static final String GENDER_FEMALE = "FEMALE";
 
+	private static final int BMI_UNDERWEIGHT = 0;
+	private static final int BMI_NORMAL = 1;
+	private static final int BMI_OVERWEIGHT = 2;
+	private static final int BMI_OBESE = 3;
+
 	public Patient() {
 		this.firstName = "Test";
 		this.lastName = "Patient";
@@ -136,9 +141,9 @@ public class Patient extends User {
 				.append(FIELD_STATUS, p.getStatus())
 				.append(FIELD_TOKEN, p.getToken())
 				.append(FIELD_SECRET, p.getSecret());
-		
+
 		System.out.println(p.getToken());
-		
+
 		if (p.getId() != null)
 			builder = builder.append(MongoConnector.MONGO_FIELD_ID, p.getId());
 
@@ -173,7 +178,7 @@ public class Patient extends User {
 				.get(FIELD_ENCOUNTERS)));
 		p.setWeightListJSON(((DBObject) doc.get(FIELD_WEIGHT_LIST)).toString());
 		p.setStatus((String) doc.get(FIELD_STATUS));
-		p.setToken((String) doc.get(FIELD_TOKEN)); 
+		p.setToken((String) doc.get(FIELD_TOKEN));
 		p.setSecret((String) doc.get(FIELD_SECRET));
 
 		return p;
@@ -213,20 +218,33 @@ public class Patient extends User {
 
 	public float getBMI(Weight w) {
 		try {
-			return (float) ((w.getWeight() / Math.pow((this.height)/100, 2)));
+			return (float) ((w.getWeight() / Math.pow((this.height) / 100, 2)));
 		} catch (Exception ex) {
 			return 0.0f;
 		}
 	}
 
-	public String getBMICategory() {
+	public int getBMICode() {
 		if (getBMI() < 18.5)
-			return "Underweight";
+			return BMI_UNDERWEIGHT;
 		else if (getBMI() < 24.9)
-			return "Healthy";
+			return BMI_NORMAL;
 		else if (getBMI() < 29.9)
+			return BMI_OVERWEIGHT;
+		return BMI_OBESE;
+	}
+
+	public String getBMICategory() {
+		switch (getBMICode()) {
+		case BMI_UNDERWEIGHT:
+			return "Underweight";
+		case BMI_NORMAL:
+			return "Normal";
+		case BMI_OVERWEIGHT:
 			return "Overweight";
-		return "Obese";
+		default:
+			return "Obese";
+		}
 	}
 
 	public int getAge() {
@@ -323,7 +341,7 @@ public class Patient extends User {
 	public double getHeightInches() {
 		return height * 0.39370;
 	}
-	
+
 	/**
 	 * @param height
 	 *            Enter height in centimetres
@@ -447,13 +465,35 @@ public class Patient extends User {
 	}
 
 	public String getStatus() {
-		return status;
+
+		// Add logic to determine non-use of Fitbit
+
+		float currWeight = getCurrentWeight();
+		float prevWeight = getWeightList().get(getWeightList().size() - 2).getWeight();
+		
+		switch (getBMICode()) {
+		case BMI_UNDERWEIGHT:
+			return STATUS_BAD;
+		case BMI_NORMAL: {
+			break;
+		}
+		case BMI_OVERWEIGHT:
+		case BMI_OBESE: {
+			if (getWeightList().size() > 1) {				
+				if (currWeight < prevWeight)
+					return STATUS_GOOD;
+				else if (currWeight - 5.0 >= prevWeight)
+					return STATUS_BAD;
+			}
+		}
+		}
+		return STATUS_NEUTRAL;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+
 	public String getToken() {
 		return token;
 	}
@@ -469,7 +509,7 @@ public class Patient extends User {
 	public void setSecret(String tokenSecret) {
 		this.secret = tokenSecret;
 	}
-	
+
 	public void setAccessToken(Token token) {
 		setToken(token.getToken());
 		setSecret(token.getSecret());
@@ -482,7 +522,7 @@ public class Patient extends User {
 	public float getCurrentWeight() {
 		return (float) (weightList.get(weightList.size() - 1).getWeight());
 	}
-	
+
 	public float getCurrentWeightPounds() {
 		return (float) (getCurrentWeight() * 2.2046);
 	}
@@ -527,7 +567,7 @@ public class Patient extends User {
 				w.setDate(date);
 
 				wList.add(w);
-				
+
 				setWeightList(wList);
 			}
 		} catch (Exception ex) {
