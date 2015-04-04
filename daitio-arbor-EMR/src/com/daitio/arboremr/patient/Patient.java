@@ -7,6 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -463,11 +466,21 @@ public class Patient extends User {
 	public void setWeightListJSON(String weightListJSON) {
 		this.weightListJSON = weightListJSON;
 	}
+	
+	public int daysBetween(Date lastLoggedDate){
+		 
+		Date todaysDate = new Date(); 
+		int days = Days.daysBetween(new DateTime(lastLoggedDate), new DateTime(todaysDate)).getDays();
+		
+		
+		return days; 
+	}
 
 	public String getStatus() {
 
 		// Add logic to determine non-use of Fitbit
-
+		Date currDate = getCurrentDate();
+				
 		float currWeight = getCurrentWeight();
 		float prevWeight = getWeightList().get(getWeightList().size() - 2).getWeight();
 		
@@ -475,7 +488,12 @@ public class Patient extends User {
 		case BMI_UNDERWEIGHT:
 			return STATUS_BAD;
 		case BMI_NORMAL: {
-			break;
+			if(daysBetween(currDate) > 1){
+				return STATUS_BAD; 
+			}
+			else{
+				break;	
+			}
 		}
 		case BMI_OVERWEIGHT:
 		case BMI_OBESE: {
@@ -485,6 +503,10 @@ public class Patient extends User {
 				else if (currWeight - 5.0 >= prevWeight)
 					return STATUS_BAD;
 			}
+			else if(daysBetween(currDate) > 1){
+				return STATUS_BAD; 
+			}
+			
 		}
 		}
 		return STATUS_NEUTRAL;
@@ -518,7 +540,11 @@ public class Patient extends User {
 	public Token getAccessToken() {
 		return new Token(token, secret);
 	}
-
+	
+	public Date getCurrentDate(){
+		return (Date) (weightList.get(weightList.size() - 1).getDate());
+	}
+	
 	public float getCurrentWeight() {
 		return (float) (weightList.get(weightList.size() - 1).getWeight());
 	}
